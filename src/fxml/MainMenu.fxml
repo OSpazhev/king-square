@@ -4,12 +4,11 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="275.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8.0.92" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="275.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MainMenuController">
    <children>
       <AnchorPane prefHeight="275.0" prefWidth="300.0">
          <children>
-            <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="120.0" text="Button" AnchorPane.bottomAnchor="175.0" AnchorPane.leftAnchor="90.0" AnchorPane.rightAnchor="90.0" AnchorPane.topAnchor="60.0" />
+            <Button mnemonicParsing="false" onAction="#showDialogBeforeSinglePlayerGame" prefHeight="40.0" prefWidth="120.0" text="Проти комп'ютера" AnchorPane.bottomAnchor="175.0" AnchorPane.leftAnchor="90.0" AnchorPane.rightAnchor="90.0" AnchorPane.topAnchor="60.0" />
          </children>
       </AnchorPane>
    </children>
