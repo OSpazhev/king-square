@@ -77,7 +77,7 @@
                   <Font size="48.0" />
                </font>
             </Label>
-            <Label alignment="CENTER" prefHeight="100.0" prefWidth="200.0" textAlignment="CENTER">
+            <Label prefHeight="100.0" prefWidth="200.0" text="Комп'ютер" textAlignment="CENTER">
                <font>
                   <Font size="28.0" />
                </font>
