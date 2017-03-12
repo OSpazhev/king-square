@@ -3,21 +3,26 @@ package interfaces.implementations;
 import interfaces.Player;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.scene.control.Label;
 
 /**
  * Created by Spazhev Oleksandr on 23.02.2017.
  */
 public class PCPlayer implements Player {
 
-    private String         name;
-    private Integer        scores;
-    private StringProperty scoresForLabel;
+    private String               name;
+    private Integer              scores;
+    private Label                listener;
 
     public PCPlayer() {
 
         name           = "Комп'ютер";
         scores         = 0;
-        scoresForLabel = new SimpleStringProperty(scores.toString());
+        if (listener != null) {
+
+            listener.setText(scores.toString());
+
+        }
 
     }
 
@@ -30,17 +35,17 @@ public class PCPlayer implements Player {
     public void addScores(int scores) {
 
         this.scores   += scores;
-        scoresForLabel = new SimpleStringProperty(this.scores.toString());
+        if (listener != null) {
+
+            listener.setText(this.scores.toString());
+
+        }
 
     }
 
     @Override
     public int getScores() {
         return this.scores;
-    }
-
-    public StringProperty getScoresForLabel() {
-        return this.scoresForLabel;
     }
 
     @Override
@@ -50,7 +55,9 @@ public class PCPlayer implements Player {
 
     }
 
-    public void skipMove() {
-
+    @Override
+    public void setListener(Label newListener) {
+        listener = newListener;
     }
+
 }

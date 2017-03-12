@@ -1,6 +1,6 @@
 package interfaces;
 
-import javafx.beans.property.StringProperty;
+import javafx.scene.control.Label;
 
 /**
  * Created by Spazhev Oleksandr on 23.02.2017.
@@ -9,6 +9,7 @@ public interface Player {
 
     String name   = "";
     int    scores = 0;
+    Label  listener = null;
 
     String getName();
 
@@ -16,8 +17,8 @@ public interface Player {
 
     int getScores();
 
-    StringProperty getScoresForLabel();
-
     boolean makeMove();
+
+    void setListener(Label newListener);
 
 }

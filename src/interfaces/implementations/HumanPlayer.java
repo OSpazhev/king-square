@@ -3,6 +3,7 @@ package interfaces.implementations;
 import interfaces.Player;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.scene.control.Label;
 
 /**
  * Created by Spazhev Oleksandr on 23.02.2017.
@@ -10,24 +11,28 @@ import javafx.beans.property.StringProperty;
 
 public class HumanPlayer implements Player {
 
-    private String         name;
-    private Integer        scores;
-    private StringProperty scoresforLabel;
+    private String  name;
+    private Integer scores;
+    private Label   listener;
 
     public HumanPlayer() {
         name           = "";
         scores         = 0;
-        scoresforLabel = new SimpleStringProperty(scores.toString());
+        if (listener != null) {
+
+            listener.setText(scores.toString());
+
+        }
     }
 
     public HumanPlayer(String name) {
         this.name      = name;
         scores         = 0;
-        scoresforLabel = new SimpleStringProperty(scores.toString());
-    }
+        if (listener != null) {
 
-    public void setName(String name) {
-        this.name = name;
+            listener.setText(scores.toString());
+
+        }
     }
 
     @Override
@@ -38,7 +43,11 @@ public class HumanPlayer implements Player {
     @Override
     public void addScores(int scores) {
         this.scores   += scores;
-        scoresforLabel = new SimpleStringProperty(this.scores.toString());
+        if (listener != null) {
+
+            listener.setText(this.scores.toString());
+
+        }
     }
 
     @Override
@@ -46,18 +55,14 @@ public class HumanPlayer implements Player {
         return this.scores;
     }
 
-    public StringProperty getScoresForLabel() {
-        return this.scoresforLabel;
-    }
-
     @Override
     public boolean makeMove() {
         return true;
     }
 
-    public void skipMove() {
-
+    @Override
+    public void setListener(Label newListener) {
+        listener = newListener;
     }
-
 
 }

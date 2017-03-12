@@ -2,6 +2,7 @@ package controllers;
 
 import interfaces.implementations.HumanPlayer;
 import interfaces.implementations.PCPlayer;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -73,6 +74,7 @@ public class SinglePlayerGameController implements Initializable {
     public void showDialogMoveOfThePlayer(ActionEvent actionEvent) {
 
         try {
+
             Stage stage = new Stage();
 
             stage.setTitle("Хід гравця");
@@ -92,10 +94,17 @@ public class SinglePlayerGameController implements Initializable {
 
     void setPlayersNamesToLabels(String humanPlayerName) {
 
+        // create players
         humanPlayer = new HumanPlayer(humanPlayerName);
         pcPlayer    = new PCPlayer();
+
+        // set player`s names to the appropriate labels
         labelNameOfThePlayer.setText(humanPlayer.getName());
         labelNameOfPC.setText(pcPlayer.getName());
+
+        // set connection between labels and appropriate fields
+        pcPlayer.setListener(labelScoresOfPC);
+        humanPlayer.setListener(labelScoresOfThePlayer);
 
     }
 
