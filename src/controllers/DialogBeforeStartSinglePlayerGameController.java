@@ -6,26 +6,16 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
-/**
- * Created by Spazhev Oleksandr on 17.02.2017.
- */
-
 public class DialogBeforeStartSinglePlayerGameController {
 
     @FXML
     private TextField  txtName;
-
-    @FXML
-    private Button     btnOK;
-
-    @FXML
-    private Button     btnCancle;
 
     private FXMLLoader fxmlLoader = new FXMLLoader();
     private Parent     fxmlEdit;
@@ -41,6 +31,16 @@ public class DialogBeforeStartSinglePlayerGameController {
 
     }
 
+    private void callErrorDialog(String headrerText, String contentText) {
+
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Вікно помилки");
+        alert.setHeaderText(headrerText);
+        alert.setContentText(contentText);
+
+        alert.showAndWait();
+    }
+
     private void loadFXMLFile()
     {
         try
@@ -50,7 +50,7 @@ public class DialogBeforeStartSinglePlayerGameController {
 
         } catch (IOException e) {
 
-            System.out.println("Something wrong with load fxml file");
+            callErrorDialog("Помилка при спробі завантажити файл", "Проблеми із завантаженням fxml файлу");
 
         }
 
@@ -64,7 +64,7 @@ public class DialogBeforeStartSinglePlayerGameController {
 
         } catch (NullPointerException e) {
 
-            System.out.println("Something wrong with attempt set player's names to labels");
+            callErrorDialog("Помилка при спробі встановити імена гравцям", "Проблеми із fxml файлом");
 
         }
 
@@ -95,15 +95,14 @@ public class DialogBeforeStartSinglePlayerGameController {
             }
             else {
 
-                // if field with name empty, border will be red
-                txtName.setStyle("-fx-border-color: #ff0008 ; -fx-border-width: 1px ;");
+                callErrorDialog("Помилка при спробі почати гру", "Ви не ввели ім'я");
+
                 txtName.setPromptText("Введіть тут ваше ім'я");
             }
 
         } catch (Exception e) {
 
-            System.out.println("Something wrong with attempt open SinglePlayerGame");
-            e.printStackTrace();
+            callErrorDialog("Помилка при спробі почати гру", null);
 
         }
 

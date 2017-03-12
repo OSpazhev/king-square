@@ -2,7 +2,6 @@ package controllers;
 
 import interfaces.implementations.HumanPlayer;
 import interfaces.implementations.PCPlayer;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,6 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Modality;
@@ -57,6 +57,7 @@ public class SinglePlayerGameController implements Initializable {
     }
 
     private void loadFXMLFile() {
+
         try {
 
             fxmlLoader.setLocation(getClass().getResource("../fxml/DialogMoveOfThePlayer.fxml"));
@@ -65,7 +66,12 @@ public class SinglePlayerGameController implements Initializable {
 
         } catch (IOException e) {
 
-            System.out.println("Something wrong with load fxml file");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Помилка при роботі з fxml файлом");
+            alert.setHeaderText("Проблеми при завантажені fxml файлу");
+            alert.setContentText(null);
+
+            alert.showAndWait();
 
         }
 
@@ -84,9 +90,15 @@ public class SinglePlayerGameController implements Initializable {
             stage.initOwner(((Node)actionEvent.getSource()).getScene().getWindow());
             stage.show();
 
-        } catch(Exception e)
-        {
-            System.out.println("Something wrong with stage of DialogMoveOfThePlayer");
+        } catch(Exception e) {
+
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Вікно помилки");
+            alert.setHeaderText("Проблеми з відкриттям вікна");
+            alert.setContentText(null);
+
+            alert.showAndWait();
+
         }
 
 

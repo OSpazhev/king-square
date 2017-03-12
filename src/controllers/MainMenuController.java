@@ -7,7 +7,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
+import javafx.scene.control.Alert;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -24,14 +24,22 @@ public class MainMenuController implements Initializable {
     private Parent     fxmlScene;
     private Scene      scene;
 
-    @FXML
-    private Button     btnSinglePlayer;
 
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
 
         loadFXMLFile();
 
+    }
+
+    private void callErrorDialog() {
+
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Вікно помилки");
+        alert.setHeaderText("Помилка при спробі завантажити файл");
+        alert.setContentText("Проблеми із завантаженням fxml файлу");
+
+        alert.showAndWait();
     }
 
     private void loadFXMLFile() {
@@ -44,7 +52,7 @@ public class MainMenuController implements Initializable {
 
         } catch (IOException e) {
 
-            System.out.println("Something wrong with load fxml file");
+            callErrorDialog();
 
         }
 

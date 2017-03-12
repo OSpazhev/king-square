@@ -1,8 +1,5 @@
 package objects;
 
-/**
- * Created by Spazhev Oleksandr on 24.02.2017.
- */
 public class Word {
 
     private String word;
@@ -42,7 +39,8 @@ public class Word {
         }
 
         // word longer than 3 characters, is not adjective
-        incorrectWord |= ((word.length() > 3) && (word.substring(word.length() - 2).equalsIgnoreCase("ий")));
+        //incorrectWord |= ((word.length() > 3) && (word.substring(word.length() - 2).equalsIgnoreCase("ий")));
+
         return !incorrectWord;
 
     }
