@@ -8,7 +8,7 @@
    <children>
       <AnchorPane prefHeight="275.0" prefWidth="300.0">
          <children>
-            <Button minWidth="120.0" mnemonicParsing="false" onAction="#showDialogBeforeSinglePlayerGame" prefHeight="40.0" prefWidth="120.0" text="Проти комп'ютера" AnchorPane.bottomAnchor="175.0" AnchorPane.leftAnchor="90.0" AnchorPane.rightAnchor="90.0" AnchorPane.topAnchor="60.0" />
+            <Button fx:id="btnSinglePlay" minWidth="120.0" mnemonicParsing="false" onAction="#showDialogBeforeSinglePlayerGame" prefHeight="40.0" prefWidth="120.0" text="Проти комп'ютера" AnchorPane.bottomAnchor="175.0" AnchorPane.leftAnchor="90.0" AnchorPane.rightAnchor="90.0" AnchorPane.topAnchor="60.0" />
          </children>
       </AnchorPane>
    </children>

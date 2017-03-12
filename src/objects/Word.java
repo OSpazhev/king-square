@@ -32,17 +32,17 @@ public class Word {
         for (char letter : word.toCharArray()) {
 
             boolean incorrectChar = true;
-
             for (char correctLetter : Letters) {
-                incorrectChar &= (correctLetter != letter);
-            }
 
+                incorrectChar &= (correctLetter != letter);
+
+            }
             incorrectWord |= incorrectChar;
 
         }
-        
-        incorrectWord |= ((word.length() > 3) && (word.substring(word.length() - 2).equalsIgnoreCase("ий")));
 
+        // word longer than 3 characters, is not adjective
+        incorrectWord |= ((word.length() > 3) && (word.substring(word.length() - 2).equalsIgnoreCase("ий")));
         return !incorrectWord;
 
     }

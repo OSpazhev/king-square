@@ -14,20 +14,43 @@ public class Vocabulary {
 
     private Vector<Word> vocabulary = new Vector<Word>();
 
+    private boolean IsCorrectWordForVocabulary(Word possibleWord) {
+
+        boolean flag = false;
+
+        if (possibleWord.isCorrectWordInUkrainian()) {
+
+            if (vocabulary.isEmpty()) {
+
+                flag = true;
+
+            } else if (!possibleWord.getWord().equals(vocabulary.lastElement().getWord())){
+
+                flag = true;
+
+            }
+
+        }
+
+        return flag;
+
+    }
+
     public Vocabulary(String filePath, String fileName) {
 
         try {
 
+            // read vocabluary from file(in each line only one word)
             List<String> lines = Files.readAllLines(Paths.get(filePath, fileName), StandardCharsets.ISO_8859_1);
 
             for (String line : lines) {
 
                 line = new String(line.getBytes("ISO-8859-1"), "windows-1251");
-                Word buffer = new Word(line);
+                Word possibleWord = new Word(line);
 
-                if (buffer.isCorrectWordInUkrainian() && ((vocabulary.size() == 0) || (vocabulary.size() > 0) && !buffer.getWord().equals(vocabulary.lastElement().getWord()))) {
+                if (IsCorrectWordForVocabulary(possibleWord)) {
 
-                    vocabulary.add(buffer);
+                    vocabulary.add(possibleWord);
 
                 }
 
@@ -35,6 +58,7 @@ public class Vocabulary {
 
         } catch (IOException e) {
 
+            System.out.println("Something wrong with vocabulary file");
             e.printStackTrace();
 
         }

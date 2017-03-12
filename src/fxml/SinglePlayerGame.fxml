@@ -19,7 +19,7 @@
                <children>
                   <AnchorPane HBox.hgrow="ALWAYS">
                      <children>
-                        <TableView prefHeight="283.0" prefWidth="300.0" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <TableView fx:id="tablePlayingField" prefHeight="283.0" prefWidth="300.0" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <columns>
                             <TableColumn prefWidth="50.0" />
                             <TableColumn prefWidth="50.0" text="X1" />
@@ -38,7 +38,7 @@
                      <children>
                         <VBox alignment="CENTER" prefHeight="283.0" prefWidth="300.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <Label fx:id="txtNameOfTheMovingPlayer" alignment="CENTER" prefHeight="54.0" prefWidth="300.0" text="Зараз хід гравця: " />
+                              <Label fx:id="labelNameOfTheMovingPlayer" alignment="CENTER" prefHeight="54.0" prefWidth="300.0" text="Зараз хід гравця: " />
                               <Button fx:id="btnMakeMove" mnemonicParsing="false" onAction="#showDialogMoveOfThePlayer" prefHeight="40.0" prefWidth="240.0" text="Зробити хід">
                                  <opaqueInsets>
                                     <Insets top="20.0" />
@@ -75,12 +75,12 @@
          <children>
             <HBox alignment="CENTER" maxHeight="70.0" prefHeight="70.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <children>
-                  <Label fx:id="txtNameOfThePlayer" alignment="CENTER" contentDisplay="CENTER" prefHeight="70.0" prefWidth="200.0" textAlignment="CENTER">
+                  <Label fx:id="labelNameOfThePlayer" alignment="CENTER" contentDisplay="CENTER" prefHeight="70.0" prefWidth="200.0" textAlignment="CENTER">
                      <font>
                         <Font size="28.0" />
                      </font>
                   </Label>
-                  <Label fx:id="txtScoreOfThePlayer" alignment="CENTER" prefHeight="70.0" prefWidth="80.0" text="0" textAlignment="CENTER">
+                  <Label fx:id="labelScoresOfThePlayer" alignment="CENTER" prefHeight="70.0" prefWidth="80.0" text="0" textAlignment="CENTER">
                      <font>
                         <Font size="48.0" />
                      </font>
@@ -90,12 +90,12 @@
                         <Font size="48.0" />
                      </font>
                   </Label>
-                  <Label fx:id="txtScoreOfPC" alignment="CENTER" prefHeight="70.0" prefWidth="80.0" text="0" textAlignment="CENTER">
+                  <Label fx:id="labelScoresOfPC" alignment="CENTER" prefHeight="70.0" prefWidth="80.0" text="0" textAlignment="CENTER">
                      <font>
                         <Font size="48.0" />
                      </font>
                   </Label>
-                  <Label fx:id="txtNameOfPC" alignment="CENTER" contentDisplay="CENTER" prefHeight="70.0" prefWidth="200.0" text="Комп'ютер" textAlignment="CENTER">
+                  <Label fx:id="labelNameOfPC" alignment="CENTER" contentDisplay="CENTER" prefHeight="70.0" prefWidth="200.0" text="Комп'ютер" textAlignment="CENTER">
                      <font>
                         <Font size="28.0" />
                      </font>
@@ -110,12 +110,12 @@
                <children>
                   <AnchorPane HBox.hgrow="ALWAYS">
                      <children>
-                        <ListView fx:id="lstVwWordsOfPlayer" prefHeight="240.0" prefWidth="300.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <ListView fx:id="listViewWordsOfPlayer" prefHeight="240.0" prefWidth="300.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                      </children>
                   </AnchorPane>
                   <AnchorPane HBox.hgrow="ALWAYS">
                      <children>
-                        <ListView fx:id="lstVwWordsOfPC" prefHeight="240.0" prefWidth="300.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <ListView fx:id="listViewWordsOfPC" prefHeight="240.0" prefWidth="300.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                      </children>
                   </AnchorPane>
                </children>
