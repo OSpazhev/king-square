@@ -5,7 +5,7 @@ import javafx.scene.control.Label;
 /**
  * Created by Spazhev Oleksandr on 23.02.2017.
  */
-public interface Player {
+public interface IPlayer {
 
     String name   = "";
     int    scores = 0;

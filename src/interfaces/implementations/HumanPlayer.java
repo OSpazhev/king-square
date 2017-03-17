@@ -1,13 +1,13 @@
 package interfaces.implementations;
 
-import interfaces.Player;
+import interfaces.IPlayer;
 import javafx.scene.control.Label;
 
 /**
  * Created by Spazhev Oleksandr on 23.02.2017.
  */
 
-public class HumanPlayer implements Player {
+public class HumanPlayer implements IPlayer {
 
     private String  name;
     private Integer scores;

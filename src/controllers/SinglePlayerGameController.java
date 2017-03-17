@@ -2,6 +2,8 @@ package controllers;
 
 import interfaces.implementations.HumanPlayer;
 import interfaces.implementations.PCPlayer;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,10 +12,14 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import objects.Move;
+import objects.Row;
 
 import java.io.IOException;
 import java.net.URL;
@@ -22,32 +28,48 @@ import java.util.ResourceBundle;
 public class SinglePlayerGameController implements Initializable {
 
     @FXML
-    private Button             btnMakeMove;
+    private Label               labelNameOfThePlayer;
 
     @FXML
-    private Button             btnSkipMove;
+    private Label               labelNameOfPC;
 
     @FXML
-    private Button             btnGiveUp;
+    private Label               labelScoresOfThePlayer;
 
     @FXML
-    private Label              labelNameOfThePlayer;
+    private Label               labelScoresOfPC;
 
     @FXML
-    private Label              labelNameOfPC;
+    private TableView tablePlayingField;
 
     @FXML
-    private Label              labelScoresOfThePlayer;
+    private TableColumn<Row, String> columnNamesOfRows;
 
     @FXML
-    private Label              labelScoresOfPC;
+    private TableColumn<Row, String> columnX1;
 
-    static private HumanPlayer humanPlayer = new HumanPlayer();
-    static private PCPlayer    pcPlayer    = new PCPlayer();
+    @FXML
+    private TableColumn<Row, String> columnX2;
 
-    private FXMLLoader         fxmlLoader = new FXMLLoader();
-    private Parent             fxmlEdit;
-    private Scene              scene;
+    @FXML
+    private TableColumn<Row, String> columnX3;
+
+    @FXML
+    private TableColumn<Row, String> columnX4;
+
+    @FXML
+    private TableColumn<Row, String> columnX5;
+
+    static private HumanPlayer  humanPlayer  = new HumanPlayer();
+    static private PCPlayer     pcPlayer     = new PCPlayer();
+
+    private FXMLLoader          fxmlLoader   = new FXMLLoader();
+    private Parent              fxmlEdit;
+    private Scene               scene;
+
+    //private Table               table;
+    private ObservableList<Row> tableForFXML = FXCollections.observableArrayList();
+
 
     @FXML
     public void initialize(URL location, ResourceBundle resources)  {
@@ -118,6 +140,11 @@ public class SinglePlayerGameController implements Initializable {
         pcPlayer.setListener(labelScoresOfPC);
         humanPlayer.setListener(labelScoresOfThePlayer);
 
+    }
+
+    public static boolean tryToMakeMoveBy(Move possibleMove) {
+
+        return true;
     }
 
 }

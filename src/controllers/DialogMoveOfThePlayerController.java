@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import objects.Move;
 import objects.Word;
 
 import java.net.URL;
@@ -62,7 +63,15 @@ public class DialogMoveOfThePlayerController implements Initializable{
 
     }
 
-    private void sendDataToTheMainWindow() {
+    private void sendDataToTheSinglePlayerGameController() {
+
+        Move possibleMove = new Move();
+        possibleMove.setCoordX(chbxCoordX.getValue());
+        possibleMove.setCoordY(chbxCoordY.getValue());
+        possibleMove.setLetter(chbxLetter.getValue());
+        possibleMove.setWord(txtWord.getText());
+        closeCurrentWindow();
+        SinglePlayerGameController.tryToMakeMoveBy(possibleMove);
 
     }
 
@@ -89,9 +98,9 @@ public class DialogMoveOfThePlayerController implements Initializable{
             System.out.println(1);
             callErrorDialog("Ви ввели некоректне слово");
         } else {
-            sendDataToTheMainWindow();
-            closeCurrentWindow();
+            sendDataToTheSinglePlayerGameController();
         }
+
     }
 
     private void callWarningDialog(String warning) {

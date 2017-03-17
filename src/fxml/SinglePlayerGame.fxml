@@ -21,12 +21,12 @@
                      <children>
                         <TableView fx:id="tablePlayingField" prefHeight="283.0" prefWidth="300.0" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <columns>
-                            <TableColumn prefWidth="50.0" />
-                            <TableColumn prefWidth="50.0" text="X1" />
-                              <TableColumn prefWidth="50.0" text="X2" />
-                              <TableColumn prefWidth="50.0" text="X3" />
-                              <TableColumn prefWidth="50.0" text="X4" />
-                              <TableColumn prefWidth="50.0" text="X5" />
+                            <TableColumn fx:id="columnNamesOfRows" editable="false" prefWidth="50.0" sortable="false" />
+                            <TableColumn fx:id="columnX1" editable="false" prefWidth="50.0" sortable="false" text="X1" />
+                              <TableColumn fx:id="columnX2" editable="false" prefWidth="50.0" sortable="false" text="X2" />
+                              <TableColumn fx:id="columnX3" editable="false" prefWidth="50.0" sortable="false" text="X3" />
+                              <TableColumn fx:id="columnX4" editable="false" prefWidth="50.0" sortable="false" text="X4" />
+                              <TableColumn fx:id="columnX5" editable="false" prefWidth="50.0" sortable="false" text="X5" />
                           </columns>
                            <columnResizePolicy>
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

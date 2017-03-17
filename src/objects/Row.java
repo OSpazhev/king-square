@@ -15,42 +15,42 @@ public class Row {
     private char   x5   = ' ';
 
 
-    void setName(int number) {
+    public void setName(int number) {
         name += number;
     }
 
-    void setX1(char x1) {
+    public void setX1(char x1) {
         this.x1 = x1;
     }
-    char getX1() {
+    public char getX1() {
         return this.x1;
     }
 
-    void setX2(char x2) {
+    public void setX2(char x2) {
         this.x2 = x2;
     }
-    char getX2() {
+    public char getX2() {
         return this.x2;
     }
 
-    void setX3(char x3) {
+    public void setX3(char x3) {
         this.x3 = x3;
     }
-    char getX3() {
+    public char getX3() {
         return this.x3;
     }
 
-    void setX4(char x4) {
+    public void setX4(char x4) {
         this.x4 = x4;
     }
-    char getX4() {
+    public char getX4() {
         return this.x4;
     }
 
-    void setX5(char x5) {
+    public void setX5(char x5) {
         this.x5 = x5;
     }
-    char getX5() {
+    public char getX5() {
         return this.x5;
     }
 
