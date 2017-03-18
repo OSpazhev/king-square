@@ -1,57 +1,54 @@
 package objects;
 
-/**
- * Created by Spazhev Oleksandr on 10.03.2017.
- */
-
 public class Row {
 
-    private String name = "y";
+    private String name = "X";
 
-    private char   x1   = ' ';
-    private char   x2   = ' ';
-    private char   x3   = ' ';
-    private char   x4   = ' ';
-    private char   x5   = ' ';
+    private char   y1   = ' ';
+    private char   y2   = ' ';
+    private char   y3   = ' ';
+    private char   y4   = ' ';
+    private char   y5   = ' ';
 
-
-    public void setName(int number) {
-        name += number;
-    }
-
-    public void setX1(char x1) {
-        this.x1 = x1;
-    }
-    public char getX1() {
-        return this.x1;
+    public Row(int number) {
+        this.name += number;
     }
 
-    public void setX2(char x2) {
-        this.x2 = x2;
+    public String getName() { return this.name; }
+
+    public void setY1(char y1) {
+        this.y1 = y1;
     }
-    public char getX2() {
-        return this.x2;
+    public char getY1() {
+        return this.y1;
     }
 
-    public void setX3(char x3) {
-        this.x3 = x3;
+    public void setY2(char y2) {
+        this.y2 = y2;
     }
-    public char getX3() {
-        return this.x3;
-    }
-
-    public void setX4(char x4) {
-        this.x4 = x4;
-    }
-    public char getX4() {
-        return this.x4;
+    public char getY2() {
+        return this.y2;
     }
 
-    public void setX5(char x5) {
-        this.x5 = x5;
+    public void setY3(char y3) {
+        this.y3 = y3;
     }
-    public char getX5() {
-        return this.x5;
+    public char getY3() {
+        return this.y3;
+    }
+
+    public void setY4(char y4) {
+        this.y4 = y4;
+    }
+    public char getY4() {
+        return this.y4;
+    }
+
+    public void setY5(char y5) {
+        this.y5 = y5;
+    }
+    public char getY5() {
+        return this.y5;
     }
 
 }

@@ -7,9 +7,7 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Vector;
 
-/**
- * Created by Spazhev Oleksandr on 24.02.2017.
- */
+
 public class Vocabulary {
 
     private Vector<Word> vocabulary = new Vector<Word>();

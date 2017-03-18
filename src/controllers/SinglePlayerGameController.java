@@ -2,8 +2,6 @@ package controllers;
 
 import interfaces.implementations.HumanPlayer;
 import interfaces.implementations.PCPlayer;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,6 +18,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import objects.Move;
 import objects.Row;
+import objects.Table;
 
 import java.io.IOException;
 import java.net.URL;
@@ -28,53 +27,70 @@ import java.util.ResourceBundle;
 public class SinglePlayerGameController implements Initializable {
 
     @FXML
-    private Label               labelNameOfThePlayer;
+    private Label                    labelNameOfTheMovingPlayer;
 
     @FXML
-    private Label               labelNameOfPC;
+    private Label                    labelNameOfThePlayer;
 
     @FXML
-    private Label               labelScoresOfThePlayer;
+    private Label                    labelNameOfPC;
 
     @FXML
-    private Label               labelScoresOfPC;
+    private Label                    labelScoresOfThePlayer;
 
     @FXML
-    private TableView tablePlayingField;
+    private Label                    labelScoresOfPC;
+
+    @FXML
+    private TableView                tablePlayingField;
 
     @FXML
     private TableColumn<Row, String> columnNamesOfRows;
 
     @FXML
-    private TableColumn<Row, String> columnX1;
+    private TableColumn<Row, String> columnY1;
 
     @FXML
-    private TableColumn<Row, String> columnX2;
+    private TableColumn<Row, String> columnY2;
 
     @FXML
-    private TableColumn<Row, String> columnX3;
+    private TableColumn<Row, String> columnY3;
 
     @FXML
-    private TableColumn<Row, String> columnX4;
+    private TableColumn<Row, String> columnY4;
 
     @FXML
-    private TableColumn<Row, String> columnX5;
+    private TableColumn<Row, String> columnY5;
 
-    static private HumanPlayer  humanPlayer  = new HumanPlayer();
-    static private PCPlayer     pcPlayer     = new PCPlayer();
+    static private HumanPlayer       humanPlayer  = new HumanPlayer();
+    static private PCPlayer          pcPlayer     = new PCPlayer();
+    static private Table             table        = new Table();
 
-    private FXMLLoader          fxmlLoader   = new FXMLLoader();
-    private Parent              fxmlEdit;
-    private Scene               scene;
-
-    //private Table               table;
-    private ObservableList<Row> tableForFXML = FXCollections.observableArrayList();
+    private FXMLLoader               fxmlLoader   = new FXMLLoader();
+    private Parent                   fxmlEdit;
+    private Scene                    scene;
 
 
     @FXML
     public void initialize(URL location, ResourceBundle resources)  {
 
         loadFXMLFile();
+
+        columnNamesOfRows.setCellValueFactory(new PropertyValueFactory<Row, String>("name"));
+        columnY1.setCellValueFactory(new PropertyValueFactory<Row, String>("y1"));
+        columnY2.setCellValueFactory(new PropertyValueFactory<Row, String>("y2"));
+        columnY3.setCellValueFactory(new PropertyValueFactory<Row, String>("y3"));
+        columnY4.setCellValueFactory(new PropertyValueFactory<Row, String>("y4"));
+        columnY5.setCellValueFactory(new PropertyValueFactory<Row, String>("y5"));
+
+        columnNamesOfRows.setStyle("-fx-alignment: CENTER;");
+        columnY1.setStyle("-fx-alignment: CENTER;");
+        columnY2.setStyle("-fx-alignment: CENTER;");
+        columnY3.setStyle("-fx-alignment: CENTER;");
+        columnY4.setStyle("-fx-alignment: CENTER;");
+        columnY5.setStyle("-fx-alignment: CENTER;");
+
+        tablePlayingField.setItems(table.getTable());
 
     }
 
@@ -123,7 +139,6 @@ public class SinglePlayerGameController implements Initializable {
 
         }
 
-
     }
 
     void setPlayersNamesToLabels(String humanPlayerName) {
@@ -140,9 +155,13 @@ public class SinglePlayerGameController implements Initializable {
         pcPlayer.setListener(labelScoresOfPC);
         humanPlayer.setListener(labelScoresOfThePlayer);
 
+        String currenPlayer = "Зараз хід гравця: " + humanPlayer.getName();
+        labelNameOfTheMovingPlayer.setText(currenPlayer);
+
     }
 
     public static boolean tryToMakeMoveBy(Move possibleMove) {
+
 
         return true;
     }

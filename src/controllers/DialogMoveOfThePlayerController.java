@@ -66,21 +66,24 @@ public class DialogMoveOfThePlayerController implements Initializable{
     private void sendDataToTheSinglePlayerGameController() {
 
         Move possibleMove = new Move();
+
         possibleMove.setCoordX(chbxCoordX.getValue());
         possibleMove.setCoordY(chbxCoordY.getValue());
         possibleMove.setLetter(chbxLetter.getValue());
         possibleMove.setWord(txtWord.getText());
-        closeCurrentWindow();
-        SinglePlayerGameController.tryToMakeMoveBy(possibleMove);
+
+        if (SinglePlayerGameController.tryToMakeMoveBy(possibleMove)) {
+            closeCurrentWindow();
+        }
 
     }
 
-    private void callErrorDialog(String error) {
+    private void callWarningDialog(String warning) {
 
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Вікно помилки");
-        alert.setHeaderText("Помилка при спробі зробити хід");
-        alert.setContentText(error);
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Вікно попередження");
+        alert.setHeaderText("При спробі зробити хід щось пішло не так");
+        alert.setContentText(warning);
 
         alert.showAndWait();
     }
@@ -89,28 +92,17 @@ public class DialogMoveOfThePlayerController implements Initializable{
 
         Word possibleWord = new Word(txtWord.getText());
         if (chbxCoordX.getValue() == null) {
-            callErrorDialog("Поле 'Координата Х' -- порожнє");
+            callWarningDialog("Поле 'Координата Х' -- порожнє");
         } else if (chbxCoordY.getValue() == null) {
-            callErrorDialog("Поле 'Координата Y' -- порожнє");
+            callWarningDialog("Поле 'Координата Y' -- порожнє");
         } else if (chbxLetter.getValue() == null) {
-            callErrorDialog("Поле 'Літера' -- порожнє");
+            callWarningDialog("Поле 'Літера' -- порожнє");
         } else if (!possibleWord.isCorrectWordInUkrainian()) {
             System.out.println(1);
-            callErrorDialog("Ви ввели некоректне слово");
+            callWarningDialog("Ви ввели некоректне слово");
         } else {
             sendDataToTheSinglePlayerGameController();
         }
-
-    }
-
-    private void callWarningDialog(String warning) {
-
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("Діалог попередження");
-        alert.setHeaderText(null);
-        alert.setContentText("Careful with the next step!");
-
-        alert.showAndWait();
 
     }
 
