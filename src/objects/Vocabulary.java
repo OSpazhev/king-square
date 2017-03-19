@@ -1,16 +1,19 @@
 package objects;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.Vector;
 
 
 public class Vocabulary {
 
-    private Vector<Word> vocabulary = new Vector<Word>();
+    private Vector<Word> vocabulary     = new Vector<Word>();
+    private ArrayList<Word> fiveLetterWord = new ArrayList<Word>();
 
     private boolean IsCorrectWordForVocabulary(Word possibleWord) {
 
@@ -34,21 +37,28 @@ public class Vocabulary {
 
     }
 
-    public Vocabulary(String filePath, String fileName) {
+    public Vocabulary() {
 
         try {
 
-            // read vocabluary from file(in each line only one word)
-            List<String> lines = Files.readAllLines(Paths.get(filePath, fileName), StandardCharsets.ISO_8859_1);
+            // read vocabulary from file(in each line only one word)
+            File txtVocabulary = new File("vocabularies/vocabulary_for_game.txt");
+            List<String> lines = Files.readAllLines(txtVocabulary.toPath(), StandardCharsets.UTF_8);
 
             for (String line : lines) {
 
-                line = new String(line.getBytes("ISO-8859-1"), "windows-1251");
+                //line = new String(line.getBytes("ISO-8859-1"), "windows-1251");
                 Word possibleWord = new Word(line);
 
                 if (IsCorrectWordForVocabulary(possibleWord)) {
 
                     vocabulary.add(possibleWord);
+
+                    if (possibleWord.getWord().length() == 5) {
+
+                        fiveLetterWord.add(possibleWord);
+
+                    }
 
                 }
 
@@ -61,6 +71,28 @@ public class Vocabulary {
 
         }
 
+    }
+
+    public Word getFiveLetterWord() {
+
+        Random rand = new Random();
+
+        return fiveLetterWord.get(Math.abs(rand.nextInt()) % fiveLetterWord.size());
+    }
+
+    public boolean isWordInVocabulary(Word possibleWord)
+    {
+
+        boolean flagWordInVocabulary = false;
+
+        for (Word vocabularyWord : vocabulary) {
+            if (vocabularyWord.equals(possibleWord))
+            {
+                flagWordInVocabulary = true;
+            }
+        }
+
+        return flagWordInVocabulary;
     }
 
 }

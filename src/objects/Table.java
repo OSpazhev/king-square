@@ -16,27 +16,59 @@ public class Table {
         return tableForFXML;
     }
 
-    public Table()
-    {
-        for (int i = 1; i < COLUMN_SIZE; i++)
-            inicializeRaw(i);
+    public Table() {
+
+        for (int i = 0; i <= COLUMN_SIZE; i++) {
+            for (int j = 0; j <= COLUMN_SIZE; j++) {
+                tableForGame[i][j] = ' ';
+            }
+        }
+
+        for (int j = 0; j < COLUMN_SIZE - 1; j++) {
+            tableForFXML.add(new Row(j + 1));
+        }
+
     }
 
-    private void inicializeRaw(int numberOfRaw) {
+    public boolean isCellEmpty(Move possibleMove) {
+        return (tableForGame[possibleMove.getCoordX()][possibleMove.getCoordY()] == ' ');
+    }
 
-        for (int i = 1; i < COLUMN_SIZE; i++) {
-            tableForGame[numberOfRaw][i] = ' ';
-        }
-        tableForFXML.add(numberOfRaw - 1, new Row(numberOfRaw));
+    public boolean isNeighboringCellsEmpty(Move possibleMove) {
+
+        boolean flagNeighboringCellsEmpty = false;
+
+        flagNeighboringCellsEmpty |= (tableForGame[possibleMove.getCoordX() + 1][possibleMove.getCoordY()] != ' ');
+        flagNeighboringCellsEmpty |= (tableForGame[possibleMove.getCoordX() - 1][possibleMove.getCoordY()] != ' ');
+        flagNeighboringCellsEmpty |= (tableForGame[possibleMove.getCoordX()][possibleMove.getCoordY() + 1] != ' ');
+        flagNeighboringCellsEmpty |= (tableForGame[possibleMove.getCoordX()][possibleMove.getCoordY() - 1] != ' ');
+
+        return flagNeighboringCellsEmpty;
 
     }
 
-    private void inicializeColumn(int numberOfColumn) {
+    public void setValueForCell(Move newValueForCell) {
 
-        for (int i = 1; i < COLUMN_SIZE; i++) {
-            tableForGame[i][numberOfColumn] = ' ';
+        tableForGame[newValueForCell.getCoordX()][newValueForCell.getCoordY()] = newValueForCell.getLetter();
+        tableForFXML.get(2).set(newValueForCell.getCoordY(), newValueForCell.getLetter());
+
+    }
+
+    public void    setStartWord(Word startWord) {
+
+        char startWordCh[] = startWord.getWord().toCharArray();
+
+        for (int i = 0; i < ROW_SIZE - 1; i++) {
+
+            Move newValueForCell = new Move();
+            newValueForCell.setLetter(startWordCh[i]);
+            newValueForCell.setCoordX(2);
+            newValueForCell.setCoordY(i + 1);
+
+            setValueForCell(newValueForCell);
+
         }
-        tableForFXML.add(numberOfColumn, new Row(numberOfColumn));
+
     }
 
 }

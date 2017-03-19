@@ -51,4 +51,49 @@ public class Row {
         return this.y5;
     }
 
+    public void set(String y, char value) {
+        switch (y) {
+            case "y1":
+            case "Y1":
+                setY1(value);
+                break;
+            case "y2":
+            case "Y2":
+                setY2(value);
+                break;
+            case "y3":
+            case "Y3":
+                setY3(value);
+                break;
+            case "y4":
+            case "Y4":
+                setY4(value);
+                break;
+            case "y5":
+            case "Y5":
+                setY5(value);
+                break;
+        }
+    }
+
+    public void set(int y, char value) {
+        switch (y) {
+            case 1:
+                setY1(value);
+                break;
+            case 2:
+                setY2(value);
+                break;
+            case 3:
+                setY3(value);
+                break;
+            case 4:
+                setY4(value);
+                break;
+            case 5:
+                setY5(value);
+                break;
+        }
+    }
+
 }

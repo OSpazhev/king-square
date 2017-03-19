@@ -4,10 +4,9 @@ public class Word {
 
     private String word;
 
-    final private char Letters[] = {'а', 'б', 'в', 'г', 'д', 'е', 'є', 'ж', 'з', 'и',
-                                    'і', 'ї', 'й', 'к', 'л', 'м', 'н', 'о', 'п', 'р',
-                                    'с', 'т', 'у', 'ф', 'х', 'ц', 'ч', 'ш', 'щ', 'ь',
-                                    'ю', 'я'};
+    final private char Letters[] = {'а', 'б', 'в', 'г', 'ґ', 'д', 'е', 'є', 'ж', 'з', 'и',
+                                    'і', 'ї', 'й', 'к', 'л', 'м', 'н', 'о', 'п', 'р', 'с',
+                                    'т', 'у', 'ф', 'х', 'ц', 'ч', 'ш', 'щ', 'ь', 'ю', 'я'};
 
 
     public Word() {
@@ -38,10 +37,13 @@ public class Word {
 
         }
 
-        // word longer than 3 characters, is not adjective
-        //incorrectWord |= ((word.length() > 3) && (word.substring(word.length() - 2).equalsIgnoreCase("ий")));
-
         return !incorrectWord;
+
+    }
+
+    public boolean equals(Word second) {
+
+        return word.equals(second.getWord());
 
     }
 

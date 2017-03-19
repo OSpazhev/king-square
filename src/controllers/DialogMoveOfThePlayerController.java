@@ -40,9 +40,9 @@ public class DialogMoveOfThePlayerController implements Initializable{
 
         chbxCoordX.setItems(FXCollections.observableArrayList("X1", "X2", "X3", "X4", "X5"));
         chbxCoordY.setItems(FXCollections.observableArrayList("Y1", "Y2", "Y3", "Y4", "Y5"));
-        chbxLetter.setItems(FXCollections.observableArrayList("а", "б", "в", "г", "д", "е", "є", "ж", "з", "и", "і", "ї",
-                                                              "й", "к", "л", "м", "н", "о", "п", "р", "с", "т", "у", "ф",
-                                                              "х", "ц", "ч", "ш", "щ", "ь", "ю", "я"));
+        chbxLetter.setItems(FXCollections.observableArrayList("а", "б", "в", "г", "ґ", "д", "е", "є", "ж", "з", "и",
+                                                              "і", "ї", "й", "к", "л", "м", "н", "о", "п", "р", "с",
+                                                              "т", "у", "ф", "х", "ц", "ч", "ш", "щ", "ь", "ю", "я"));
 
     }
 
@@ -99,7 +99,7 @@ public class DialogMoveOfThePlayerController implements Initializable{
             callWarningDialog("Поле 'Літера' -- порожнє");
         } else if (!possibleWord.isCorrectWordInUkrainian()) {
             System.out.println(1);
-            callWarningDialog("Ви ввели некоректне слово");
+            callWarningDialog("Ви ввели некоректне слово. Слово повинно містити лише українські маленькі літери");
         } else {
             sendDataToTheSinglePlayerGameController();
         }

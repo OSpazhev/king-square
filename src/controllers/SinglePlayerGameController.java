@@ -19,6 +19,7 @@ import javafx.stage.Stage;
 import objects.Move;
 import objects.Row;
 import objects.Table;
+import objects.Vocabulary;
 
 import java.io.IOException;
 import java.net.URL;
@@ -62,9 +63,10 @@ public class SinglePlayerGameController implements Initializable {
     @FXML
     private TableColumn<Row, String> columnY5;
 
-    static private HumanPlayer       humanPlayer  = new HumanPlayer();
-    static private PCPlayer          pcPlayer     = new PCPlayer();
-    static private Table             table        = new Table();
+    private static HumanPlayer       humanPlayer  = new HumanPlayer();
+    private static PCPlayer          pcPlayer     = new PCPlayer();
+    private static Table             table        = new Table();
+    private static Vocabulary        vocabulary   = new Vocabulary();
 
     private FXMLLoader               fxmlLoader   = new FXMLLoader();
     private Parent                   fxmlEdit;
@@ -75,6 +77,8 @@ public class SinglePlayerGameController implements Initializable {
     public void initialize(URL location, ResourceBundle resources)  {
 
         loadFXMLFile();
+
+        table.setStartWord(vocabulary.getFiveLetterWord());
 
         columnNamesOfRows.setCellValueFactory(new PropertyValueFactory<Row, String>("name"));
         columnY1.setCellValueFactory(new PropertyValueFactory<Row, String>("y1"));
@@ -91,6 +95,8 @@ public class SinglePlayerGameController implements Initializable {
         columnY5.setStyle("-fx-alignment: CENTER;");
 
         tablePlayingField.setItems(table.getTable());
+
+        tablePlayingField.setSelectionModel(null);
 
     }
 
@@ -162,8 +168,22 @@ public class SinglePlayerGameController implements Initializable {
 
     public static boolean tryToMakeMoveBy(Move possibleMove) {
 
+        boolean flagMoveSuccessful = true;
 
-        return true;
+        if (table.isCellEmpty(possibleMove)) {
+
+            if (!table.isNeighboringCellsEmpty(possibleMove))
+            {
+
+            } else
+            {
+                flagMoveSuccessful = false;
+            }
+
+        } else {
+            flagMoveSuccessful = false;
+        }
+            return flagMoveSuccessful;
     }
 
 }
