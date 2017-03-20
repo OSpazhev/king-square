@@ -1,5 +1,7 @@
 package objects;
 
+import interfaces.implementations.ErrorDialog;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -12,8 +14,8 @@ import java.util.Vector;
 
 public class Vocabulary {
 
-    private Vector<Word> vocabulary     = new Vector<Word>();
-    private ArrayList<Word> fiveLetterWord = new ArrayList<Word>();
+    private Vector<Word> vocabulary     = new Vector<>();
+    private ArrayList<Word> fiveLetterWord = new ArrayList<>();
 
     private boolean IsCorrectWordForVocabulary(Word possibleWord) {
 
@@ -66,8 +68,7 @@ public class Vocabulary {
 
         } catch (IOException e) {
 
-            System.out.println("Something wrong with vocabulary file");
-            e.printStackTrace();
+            ErrorDialog.callDialog("Проблеми із словником", "Можливо проблема виникла при завантаження словника");
 
         }
 

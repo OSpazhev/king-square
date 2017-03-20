@@ -1,7 +1,9 @@
 package controllers;
 
+import interfaces.implementations.ErrorDialog;
 import interfaces.implementations.HumanPlayer;
 import interfaces.implementations.PCPlayer;
+import interfaces.implementations.WarningDialog;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -84,18 +86,25 @@ public class SinglePlayerGameController implements Initializable {
 
         loadFXMLFile();
 
+        // chose starting word
         Word startWord = vocabulary.getFiveLetterWord();
+
+        // set starting word to the table
         table.setStartWord(startWord);
+
+        // add starting word to usedWord List
         pcUsed.add(startWord);
         playerUsed.add(startWord);
 
-        columnNamesOfRows.setCellValueFactory(new PropertyValueFactory<Row, String>("name"));
-        columnY1.setCellValueFactory(new PropertyValueFactory<Row, String>("y1"));
-        columnY2.setCellValueFactory(new PropertyValueFactory<Row, String>("y2"));
-        columnY3.setCellValueFactory(new PropertyValueFactory<Row, String>("y3"));
-        columnY4.setCellValueFactory(new PropertyValueFactory<Row, String>("y4"));
-        columnY5.setCellValueFactory(new PropertyValueFactory<Row, String>("y5"));
+        // set to the columns appropriate field of object person
+        columnNamesOfRows.setCellValueFactory(new PropertyValueFactory<>("name"));
+        columnY1.setCellValueFactory(new PropertyValueFactory<>("y1"));
+        columnY2.setCellValueFactory(new PropertyValueFactory<>("y2"));
+        columnY3.setCellValueFactory(new PropertyValueFactory<>("y3"));
+        columnY4.setCellValueFactory(new PropertyValueFactory<>("y4"));
+        columnY5.setCellValueFactory(new PropertyValueFactory<>("y5"));
 
+        // set style for columns
         columnNamesOfRows.setStyle("-fx-alignment: CENTER;");
         columnY1.setStyle("-fx-alignment: CENTER;");
         columnY2.setStyle("-fx-alignment: CENTER;");
@@ -103,10 +112,15 @@ public class SinglePlayerGameController implements Initializable {
         columnY4.setStyle("-fx-alignment: CENTER;");
         columnY5.setStyle("-fx-alignment: CENTER;");
 
+        // connect gaming table with FXML table
+        String headerText = "Щось не так з ігровою таблицею";
+
         tablePlayingField.setItems(table.getTable());
+
+        // connect gaming usedWords Lists with FXML Lists View
         listViewWordsOfPC.setItems(pcUsed.getList());
         listViewWordsOfPlayer.setItems(playerUsed.getList());
-        
+
         tablePlayingField.setSelectionModel(null);
 
     }
@@ -121,12 +135,7 @@ public class SinglePlayerGameController implements Initializable {
 
         } catch (IOException e) {
 
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Помилка при роботі з fxml файлом");
-            alert.setHeaderText("Проблеми при завантажені fxml файлу");
-            alert.setContentText(null);
-
-            alert.showAndWait();
+            ErrorDialog.callDialog("Пороблеми зі сценою", "Проблеми при завантажені fxml файлу");
 
         }
 
@@ -141,18 +150,16 @@ public class SinglePlayerGameController implements Initializable {
             stage.setTitle("Хід гравця");
             stage.setScene(scene);
             stage.setResizable(false);
+
+            // do new window modal
             stage.initModality(Modality.WINDOW_MODAL);
             stage.initOwner(((Node)actionEvent.getSource()).getScene().getWindow());
+
             stage.show();
 
         } catch(Exception e) {
 
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Вікно помилки");
-            alert.setHeaderText("Проблеми з відкриттям вікна");
-            alert.setContentText(null);
-
-            alert.showAndWait();
+            ErrorDialog.callDialog("Проблеми з відкриттям вікна", null);
 
         }
 
@@ -172,27 +179,44 @@ public class SinglePlayerGameController implements Initializable {
         pcPlayer.setListener(labelScoresOfPC);
         humanPlayer.setListener(labelScoresOfThePlayer);
 
-        String currenPlayer = "Зараз хід гравця: " + humanPlayer.getName();
-        labelNameOfTheMovingPlayer.setText(currenPlayer);
+        String currentPlayer = "Зараз хід гравця: " + humanPlayer.getName();
+        labelNameOfTheMovingPlayer.setText(currentPlayer);
 
     }
 
+
+
     public static boolean tryToMakeMoveBy(Move possibleMove) {
 
-        boolean flagMoveSuccessful = true;
+        boolean flagMoveSuccessful = false;
 
-        if (table.isCellEmpty(possibleMove)) {
+        String headerText = "Помилка при спробі зробити хід";
 
-            if (!table.isNeighboringCellsEmpty(possibleMove))
-            {
+        // if word is in vocabulary
+        if (vocabulary.isWordInVocabulary(possibleMove.getWord())) {
 
-            } else
-            {
-                flagMoveSuccessful = false;
+            // if word wasn't used
+            if (!pcUsed.isUsed(possibleMove.getWord()) && !playerUsed.isUsed(possibleMove.getWord())) {
+
+                // if chosen cell is empty
+                if (table.isCellEmpty(possibleMove)) {
+
+                    // if neighboring cells isn't empty
+                    if (!table.isNeighboringCellsEmpty(possibleMove)) {
+
+                        flagMoveSuccessful = true;
+
+                    } else {
+                        WarningDialog.callDialog(headerText, "Жодна з сусідніх клітинок не містить літери");
+                    }
+                } else {
+                    WarningDialog.callDialog(headerText, "Дана клітинка поля вже зайнята");
+                }
+            } else {
+                WarningDialog.callDialog(headerText, "Дане слово вже було використане в цій грі");
             }
-
         } else {
-            flagMoveSuccessful = false;
+            WarningDialog.callDialog(headerText, "Такого слова немає в словнику");
         }
         return flagMoveSuccessful;
     }

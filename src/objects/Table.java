@@ -5,8 +5,9 @@ import javafx.collections.ObservableList;
 
 public class Table {
 
-    private final int ROW_SIZE    = 6;
-    private final int COLUMN_SIZE = 6;
+    private final int           ROW_SIZE    = 6;
+    private final int           COLUMN_SIZE = 6;
+    private final int           X3          = 3;
 
     private ObservableList<Row> tableForFXML = FXCollections.observableArrayList();
 
@@ -36,12 +37,15 @@ public class Table {
 
     public boolean isNeighboringCellsEmpty(Move possibleMove) {
 
-        boolean flagNeighboringCellsEmpty = false;
+        boolean flagNeighboringCellsEmpty;
+        int     coordX                    = possibleMove.getCoordX();
+        int     coordY                    = possibleMove.getCoordY();
 
-        flagNeighboringCellsEmpty |= (tableForGame[possibleMove.getCoordX() + 1][possibleMove.getCoordY()] != ' ');
-        flagNeighboringCellsEmpty |= (tableForGame[possibleMove.getCoordX() - 1][possibleMove.getCoordY()] != ' ');
-        flagNeighboringCellsEmpty |= (tableForGame[possibleMove.getCoordX()][possibleMove.getCoordY() + 1] != ' ');
-        flagNeighboringCellsEmpty |= (tableForGame[possibleMove.getCoordX()][possibleMove.getCoordY() - 1] != ' ');
+
+        flagNeighboringCellsEmpty  = (tableForGame[coordX + 1][coordY] != ' ');
+        flagNeighboringCellsEmpty |= (tableForGame[coordX - 1][coordY] != ' ');
+        flagNeighboringCellsEmpty |= (tableForGame[coordX][coordY + 1] != ' ');
+        flagNeighboringCellsEmpty |= (tableForGame[coordX][coordY - 1] != ' ');
 
         return flagNeighboringCellsEmpty;
 
@@ -49,8 +53,11 @@ public class Table {
 
     public void setValueForCell(Move newValueForCell) {
 
-        tableForGame[newValueForCell.getCoordX()][newValueForCell.getCoordY()] = newValueForCell.getLetter();
-        tableForFXML.get(2).set(newValueForCell.getCoordY(), newValueForCell.getLetter());
+        int     coordX                    = newValueForCell.getCoordX();
+        int     coordY                    = newValueForCell.getCoordY();
+
+        tableForGame[coordX][coordY] = newValueForCell.getLetter();
+        tableForFXML.get(coordX - 1).set(coordY, newValueForCell.getLetter());
 
     }
 
@@ -62,7 +69,7 @@ public class Table {
 
             Move newValueForCell = new Move();
             newValueForCell.setLetter(startWordCh[i]);
-            newValueForCell.setCoordX(2);
+            newValueForCell.setCoordX(X3);
             newValueForCell.setCoordY(i + 1);
 
             setValueForCell(newValueForCell);

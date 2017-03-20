@@ -1,5 +1,6 @@
 package controllers;
 
+import interfaces.implementations.WarningDialog;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -73,35 +74,40 @@ public class DialogMoveOfThePlayerController implements Initializable{
         possibleMove.setWord(txtWord.getText());
 
         if (SinglePlayerGameController.tryToMakeMoveBy(possibleMove)) {
+
+            // if move was successful
             closeCurrentWindow();
+
         }
 
-    }
-
-    private void callWarningDialog(String warning) {
-
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("Вікно попередження");
-        alert.setHeaderText("При спробі зробити хід щось пішло не так");
-        alert.setContentText(warning);
-
-        alert.showAndWait();
     }
 
     private void checkAllFields() {
 
         Word possibleWord = new Word(txtWord.getText());
+
+        String headerText = "При спробі зробити хід щось пішло не так";
+
         if (chbxCoordX.getValue() == null) {
-            callWarningDialog("Поле 'Координата Х' -- порожнє");
+
+            WarningDialog.callDialog(headerText,"Поле 'Координата Х' -- порожнє");
+
         } else if (chbxCoordY.getValue() == null) {
-            callWarningDialog("Поле 'Координата Y' -- порожнє");
+
+            WarningDialog.callDialog(headerText,"Поле 'Координата Y' -- порожнє");
+
         } else if (chbxLetter.getValue() == null) {
-            callWarningDialog("Поле 'Літера' -- порожнє");
+
+            WarningDialog.callDialog(headerText,"Поле 'Літера' -- порожнє");
+
         } else if (!possibleWord.isCorrectWordInUkrainian()) {
-            System.out.println(1);
-            callWarningDialog("Ви ввели некоректне слово. Слово повинно містити лише українські маленькі літери");
+
+            WarningDialog.callDialog(headerText,"Ви ввели некоректне слово. Слово повинно містити лише українські маленькі літери");
+
         } else {
+
             sendDataToTheSinglePlayerGameController();
+
         }
 
     }
@@ -109,10 +115,13 @@ public class DialogMoveOfThePlayerController implements Initializable{
     public void pressedButton(ActionEvent actionEvent) {
 
         Button clickedButton = (Button) actionEvent.getSource();
+
         switch(clickedButton.getId()) {
+
             case "btnOK":
                 checkAllFields();
                 break;
+
             case "btnCancel":
                 closeCurrentWindow();
                 break;

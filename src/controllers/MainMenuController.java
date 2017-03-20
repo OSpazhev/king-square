@@ -1,5 +1,6 @@
 package controllers;
 
+import interfaces.implementations.ErrorDialog;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -32,16 +33,6 @@ public class MainMenuController implements Initializable {
 
     }
 
-    private void callErrorDialog() {
-
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Вікно помилки");
-        alert.setHeaderText("Помилка при спробі завантажити файл");
-        alert.setContentText("Проблеми із завантаженням fxml файлу");
-
-        alert.showAndWait();
-    }
-
     private void loadFXMLFile() {
 
         try {
@@ -52,7 +43,7 @@ public class MainMenuController implements Initializable {
 
         } catch (IOException e) {
 
-            callErrorDialog();
+            ErrorDialog.callDialog("Помилка при спробі завантажити файл", "Проблеми із завантаженням fxml файлу");
 
         }
 
@@ -70,7 +61,7 @@ public class MainMenuController implements Initializable {
         stage.setResizable(false);
         stage.setScene(scene);
 
-        // set new Window as modal(can only open one such Window)
+        // set new Window modal(can only open one such Window)
         stage.initModality(Modality.WINDOW_MODAL);
         stage.initOwner((((Node)actionEvent.getSource()).getScene().getWindow()));
 

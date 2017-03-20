@@ -1,12 +1,12 @@
 package controllers;
 
+import interfaces.implementations.ErrorDialog;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -31,16 +31,6 @@ public class DialogBeforeStartSinglePlayerGameController {
 
     }
 
-    private void callErrorDialog(String headrerText, String contentText) {
-
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Вікно помилки");
-        alert.setHeaderText(headrerText);
-        alert.setContentText(contentText);
-
-        alert.showAndWait();
-    }
-
     private void loadFXMLFile()
     {
         try
@@ -50,7 +40,7 @@ public class DialogBeforeStartSinglePlayerGameController {
 
         } catch (IOException e) {
 
-            callErrorDialog("Помилка при спробі завантажити файл", "Проблеми із завантаженням fxml файлу");
+            ErrorDialog.callDialog("Помилка при спробі завантажити файл", "Проблеми із завантаженням fxml файлу");
 
         }
 
@@ -64,7 +54,7 @@ public class DialogBeforeStartSinglePlayerGameController {
 
         } catch (NullPointerException e) {
 
-            callErrorDialog("Помилка при спробі встановити імена гравцям", "Проблеми із fxml файлом");
+            ErrorDialog.callDialog("Помилка при спробі встановити імена гравцям", "Проблеми із fxml файлом");
 
         }
 
@@ -95,14 +85,14 @@ public class DialogBeforeStartSinglePlayerGameController {
             }
             else {
 
-                callErrorDialog("Помилка при спробі почати гру", "Ви не ввели ім'я");
+                ErrorDialog.callDialog("Помилка при спробі почати гру", "Ви не ввели ім'я");
 
                 txtName.setPromptText("Введіть тут ваше ім'я");
             }
 
         } catch (Exception e) {
 
-            callErrorDialog("Помилка при спробі почати гру", null);
+            ErrorDialog.callDialog("Помилка при спробі почати гру", null);
 
         }
 
