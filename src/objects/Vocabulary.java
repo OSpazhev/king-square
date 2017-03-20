@@ -14,86 +14,59 @@ import java.util.Vector;
 
 public class Vocabulary {
 
-    private Vector<Word> vocabulary     = new Vector<>();
+    private Vector<Word>    vocabulary     = new Vector<>();
     private ArrayList<Word> fiveLetterWord = new ArrayList<>();
 
     private boolean IsCorrectWordForVocabulary(Word possibleWord) {
-
         boolean flag = false;
 
         if (possibleWord.isCorrectWordInUkrainian()) {
-
             if (vocabulary.isEmpty()) {
-
                 flag = true;
-
             } else if (!possibleWord.getString().equals(vocabulary.lastElement().getString())){
-
                 flag = true;
-
             }
-
         }
 
         return flag;
-
     }
 
     public Vocabulary() {
-
         try {
-
             // read vocabulary from file(in each line only one word)
             File txtVocabulary = new File("vocabularies/vocabulary_for_game.txt");
             List<String> lines = Files.readAllLines(txtVocabulary.toPath(), StandardCharsets.UTF_8);
 
             for (String line : lines) {
-
                 //line = new String(line.getBytes("ISO-8859-1"), "windows-1251");
                 Word possibleWord = new Word(line);
-
                 if (IsCorrectWordForVocabulary(possibleWord)) {
-
                     vocabulary.add(possibleWord);
-
                     if (possibleWord.getString().length() == 5) {
-
                         fiveLetterWord.add(possibleWord);
-
                     }
-
                 }
-
             }
-
         } catch (IOException e) {
-
             ErrorDialog.callDialog("Проблеми із словником", "Можливо проблема виникла при завантаження словника");
-
         }
-
     }
 
     public Word getFiveLetterWord() {
-
         Random rand = new Random();
 
         return fiveLetterWord.get(Math.abs(rand.nextInt()) % fiveLetterWord.size());
     }
 
-    public boolean isWordInVocabulary(Word possibleWord)
-    {
-
+    public boolean isWordInVocabulary(Word possibleWord) {
         boolean flagWordInVocabulary = false;
 
         for (Word vocabularyWord : vocabulary) {
-            if (vocabularyWord.equals(possibleWord))
-            {
+            if (vocabularyWord.equals(possibleWord)) {
                 flagWordInVocabulary = true;
             }
         }
 
         return flagWordInVocabulary;
     }
-
 }

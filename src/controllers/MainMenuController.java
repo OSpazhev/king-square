@@ -25,33 +25,23 @@ public class MainMenuController implements Initializable {
     private Parent     fxmlScene;
     private Scene      scene;
 
-
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
-
         loadFXMLFile();
-
     }
 
     private void loadFXMLFile() {
-
         try {
-
             fxmlLoader.setLocation(getClass().getResource("../fxml/DialogBeforeStartSinglePlayerGame.fxml"));
             fxmlScene = fxmlLoader.load();
             scene = new Scene(fxmlScene);
-
         } catch (IOException e) {
-
             ErrorDialog.callDialog("Помилка при спробі завантажити файл", "Проблеми із завантаженням fxml файлу");
-
         }
-
     }
 
     // method is called after push button btnSinglePlay
     public void showDialogBeforeSinglePlayerGame(ActionEvent actionEvent) {
-
         // create new Stage for Window
         Stage stage = new Stage();
 
@@ -67,7 +57,5 @@ public class MainMenuController implements Initializable {
 
         // show created Window
         stage.show();
-
     }
-
 }

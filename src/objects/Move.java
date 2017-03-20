@@ -9,6 +9,25 @@ public class Move {
     private String stringCoordY;
     private Word   word;
 
+    public Move(int coordX, int coordY, char letter, Word word) {
+        this.coordX = coordX;
+        this.coordY = coordY;
+        this.letter = letter;
+        this.word   = word;
+    }
+
+    public Move(int coordX, int coordY, char letter) {
+        this(coordX, coordY, letter, new Word());
+    }
+
+    public Move(int coordX, int coordY) {
+        this(coordX, coordY,' ', new Word());
+    }
+
+    public Move(char letter, Word word) {
+        this (0, 0, letter, word);
+    }
+
     public void setLetter(char letter) {
         this.letter = letter;
     }

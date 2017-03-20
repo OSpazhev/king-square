@@ -19,7 +19,6 @@ import objects.*;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class SinglePlayerGameController implements Initializable {
@@ -61,10 +60,10 @@ public class SinglePlayerGameController implements Initializable {
     private TableColumn<Row, String> columnY5;
 
     @FXML
-    private ListView<String> listViewWordsOfPC;
+    private ListView<String>         listViewWordsOfPC;
 
     @FXML
-    private ListView<String> listViewWordsOfPlayer;
+    private ListView<String>         listViewWordsOfPlayer;
 
     private static HumanPlayer       humanPlayer  = new HumanPlayer();
     private static PCPlayer          pcPlayer     = new PCPlayer();
@@ -122,7 +121,6 @@ public class SinglePlayerGameController implements Initializable {
         listViewWordsOfPlayer.setItems(playerUsed.getList());
 
         tablePlayingField.setSelectionModel(null);
-
     }
 
     private void loadFXMLFile() {
@@ -132,11 +130,8 @@ public class SinglePlayerGameController implements Initializable {
             fxmlLoader.setLocation(getClass().getResource("../fxml/DialogMoveOfThePlayer.fxml"));
             fxmlEdit = fxmlLoader.load();
             scene = new Scene(fxmlEdit);
-
         } catch (IOException e) {
-
             ErrorDialog.callDialog("Пороблеми зі сценою", "Проблеми при завантажені fxml файлу");
-
         }
 
     }
@@ -156,11 +151,8 @@ public class SinglePlayerGameController implements Initializable {
             stage.initOwner(((Node)actionEvent.getSource()).getScene().getWindow());
 
             stage.show();
-
         } catch(Exception e) {
-
             ErrorDialog.callDialog("Проблеми з відкриттям вікна", null);
-
         }
 
     }
@@ -218,6 +210,7 @@ public class SinglePlayerGameController implements Initializable {
         } else {
             WarningDialog.callDialog(headerText, "Такого слова немає в словнику");
         }
+
         return flagMoveSuccessful;
     }
 

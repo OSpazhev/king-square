@@ -13,7 +13,6 @@ public class MainMenu extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-
         Parent root = FXMLLoader.load(getClass().getResource("../fxml/MainMenu.fxml"));
 
         primaryStage.setTitle("Гра Балда");
@@ -21,9 +20,7 @@ public class MainMenu extends Application {
         primaryStage.setMinHeight(MIN_HEIGHT);
         primaryStage.setScene(new Scene(root, MIN_WIDTH, MIN_HEIGHT));
         primaryStage.show();
-
     }
 
     public static void main(String[] args) throws Exception { launch(args); }
-
 }

@@ -31,12 +31,9 @@ public class ListOfWords {
     }
 
     public boolean isUsed(Word word) {
-
         boolean flagUsed = false;
         for(String usedWord : usedWords) {
-
             flagUsed |= usedWord.equals(word.getString());
-
         }
         return flagUsed;
     }

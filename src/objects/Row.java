@@ -52,7 +52,9 @@ public class Row {
     }
 
     public void set(String y, char value) {
+
         switch (y) {
+
             case "y1":
             case "Y1":
                 setY1(value);
@@ -77,7 +79,9 @@ public class Row {
     }
 
     public void set(int y, char value) {
+
         switch (y) {
+
             case 1:
                 setY1(value);
                 break;
@@ -95,5 +99,4 @@ public class Row {
                 break;
         }
     }
-
 }

@@ -3,10 +3,6 @@ package interfaces.implementations;
 import interfaces.IPlayer;
 import javafx.scene.control.Label;
 
-/**
- * Created by Spazhev Oleksandr on 23.02.2017.
- */
-
 public class HumanPlayer implements IPlayer {
 
     private String  name;
@@ -14,22 +10,18 @@ public class HumanPlayer implements IPlayer {
     private Label   listener;
 
     public HumanPlayer() {
-        name           = "";
-        scores         = 0;
+        name   = "";
+        scores = 0;
         if (listener != null) {
-
             listener.setText(scores.toString());
-
         }
     }
 
     public HumanPlayer(String name) {
-        this.name      = name;
-        scores         = 0;
+        this.name = name;
+        scores    = 0;
         if (listener != null) {
-
             listener.setText(scores.toString());
-
         }
     }
 
@@ -40,11 +32,10 @@ public class HumanPlayer implements IPlayer {
 
     @Override
     public void addScores(int scores) {
-        this.scores   += scores;
+        this.scores += scores;
+
         if (listener != null) {
-
             listener.setText(this.scores.toString());
-
         }
     }
 
@@ -62,5 +53,4 @@ public class HumanPlayer implements IPlayer {
     public void setListener(Label newListener) {
         listener = newListener;
     }
-
 }
