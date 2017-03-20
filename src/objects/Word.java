@@ -17,7 +17,7 @@ public class Word {
         this.word = word;
     }
 
-    public String getWord() {
+    public String getString() {
         return word;
     }
 
@@ -43,7 +43,7 @@ public class Word {
 
     public boolean equals(Word second) {
 
-        return word.equals(second.getWord());
+        return word.equals(second.getString());
 
     }
 

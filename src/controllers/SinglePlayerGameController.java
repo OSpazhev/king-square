@@ -9,20 +9,15 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import objects.Move;
-import objects.Row;
-import objects.Table;
-import objects.Vocabulary;
+import objects.*;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class SinglePlayerGameController implements Initializable {
@@ -63,10 +58,21 @@ public class SinglePlayerGameController implements Initializable {
     @FXML
     private TableColumn<Row, String> columnY5;
 
+    @FXML
+    private ListView<String> listViewWordsOfPC;
+
+    @FXML
+    private ListView<String> listViewWordsOfPlayer;
+
     private static HumanPlayer       humanPlayer  = new HumanPlayer();
     private static PCPlayer          pcPlayer     = new PCPlayer();
+
     private static Table             table        = new Table();
+
     private static Vocabulary        vocabulary   = new Vocabulary();
+
+    private static ListOfWords       pcUsed       = new ListOfWords();
+    private static ListOfWords       playerUsed   = new ListOfWords();
 
     private FXMLLoader               fxmlLoader   = new FXMLLoader();
     private Parent                   fxmlEdit;
@@ -78,7 +84,10 @@ public class SinglePlayerGameController implements Initializable {
 
         loadFXMLFile();
 
-        table.setStartWord(vocabulary.getFiveLetterWord());
+        Word startWord = vocabulary.getFiveLetterWord();
+        table.setStartWord(startWord);
+        pcUsed.add(startWord);
+        playerUsed.add(startWord);
 
         columnNamesOfRows.setCellValueFactory(new PropertyValueFactory<Row, String>("name"));
         columnY1.setCellValueFactory(new PropertyValueFactory<Row, String>("y1"));
@@ -95,7 +104,9 @@ public class SinglePlayerGameController implements Initializable {
         columnY5.setStyle("-fx-alignment: CENTER;");
 
         tablePlayingField.setItems(table.getTable());
-
+        listViewWordsOfPC.setItems(pcUsed.getList());
+        listViewWordsOfPlayer.setItems(playerUsed.getList());
+        
         tablePlayingField.setSelectionModel(null);
 
     }
@@ -183,7 +194,7 @@ public class SinglePlayerGameController implements Initializable {
         } else {
             flagMoveSuccessful = false;
         }
-            return flagMoveSuccessful;
+        return flagMoveSuccessful;
     }
 
 }

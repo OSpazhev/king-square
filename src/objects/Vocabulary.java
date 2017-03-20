@@ -25,7 +25,7 @@ public class Vocabulary {
 
                 flag = true;
 
-            } else if (!possibleWord.getWord().equals(vocabulary.lastElement().getWord())){
+            } else if (!possibleWord.getString().equals(vocabulary.lastElement().getString())){
 
                 flag = true;
 
@@ -54,7 +54,7 @@ public class Vocabulary {
 
                     vocabulary.add(possibleWord);
 
-                    if (possibleWord.getWord().length() == 5) {
+                    if (possibleWord.getString().length() == 5) {
 
                         fiveLetterWord.add(possibleWord);
 

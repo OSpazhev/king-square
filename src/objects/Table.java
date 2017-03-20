@@ -56,7 +56,7 @@ public class Table {
 
     public void    setStartWord(Word startWord) {
 
-        char startWordCh[] = startWord.getWord().toCharArray();
+        char startWordCh[] = startWord.getString().toCharArray();
 
         for (int i = 0; i < ROW_SIZE - 1; i++) {
 
