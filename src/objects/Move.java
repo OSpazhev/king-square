@@ -9,23 +9,27 @@ public class Move {
     private String stringCoordY;
     private Word   word;
 
-    public Move(int coordX, int coordY, char letter, Word word) {
+    private Move(int coordX, int coordY, char letter, Word word) {
         this.coordX = coordX;
         this.coordY = coordY;
         this.letter = letter;
-        this.word   = word;
+        this.word   = new Word(word);
     }
 
-    public Move(int coordX, int coordY, char letter) {
+    Move(int coordX, int coordY, char letter) {
         this(coordX, coordY, letter, new Word());
     }
 
-    public Move(int coordX, int coordY) {
+    Move(int coordX, int coordY) {
         this(coordX, coordY,' ', new Word());
     }
 
     public Move(char letter, Word word) {
         this (0, 0, letter, word);
+    }
+
+    public Move(Move move) {
+        this(move.getCoordX(), move.getCoordY(), move.getLetter(), move.getWord());
     }
 
     public void setLetter(char letter) {
@@ -36,7 +40,7 @@ public class Move {
         this.letter = (letter.toCharArray())[0];
     }
 
-    public char getLetter() {
+    char getLetter() {
         return letter;
     }
 
@@ -50,7 +54,7 @@ public class Move {
         this.coordX       = (coordX.toCharArray())[1] - 48;
     }
 
-    public int getCoordX() {
+    int getCoordX() {
         return coordX;
     }
 
@@ -68,7 +72,7 @@ public class Move {
         this.coordY       = (coordY.toCharArray())[1] - 48;
     }
 
-    public int getCoordY() {
+    int getCoordY() {
         return coordY;
     }
 
@@ -76,16 +80,19 @@ public class Move {
         return stringCoordY;
     }
 
-    public void setWord(Word word) {
-        this.word = word;
-    }
-
-    public void setWord(String word) {
-        this.word = new Word(word);
-    }
-
     public Word getWord() {
         return word;
     }
 
+    char getFirstLetterOfWord() {
+        return word.firstLetter();
+    }
+
+    void removeFirstLetterOfWord() {
+        word.removeFirstLetter();
+    }
+
+    public int wordLength() {
+        return word.length();
+    }
 }

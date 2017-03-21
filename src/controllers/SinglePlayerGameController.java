@@ -176,27 +176,26 @@ public class SinglePlayerGameController implements Initializable {
 
     }
 
-
-
-    public static boolean tryToMakeMoveBy(Move possibleMove) {
-
+    static boolean tryToMakeMoveBy(Move possibleMove) {
         boolean flagMoveSuccessful = false;
 
         String headerText = "Помилка при спробі зробити хід";
 
+        Move copyPossibleMove = new Move(possibleMove);
+
         // if word is in vocabulary
-        if (vocabulary.isWordInVocabulary(possibleMove.getWord())) {
+        if (vocabulary.isWordInVocabulary(copyPossibleMove.getWord())) {
 
             // if word wasn't used
-            if (!pcUsed.isUsed(possibleMove.getWord()) && !playerUsed.isUsed(possibleMove.getWord())) {
+            if (!pcUsed.isUsed(copyPossibleMove.getWord()) && !playerUsed.isUsed(copyPossibleMove.getWord())) {
 
                 // if chosen cell is empty
-                if (table.isCellEmpty(possibleMove)) {
+                if (table.isCellEmpty(copyPossibleMove)) {
 
                     // if neighboring cells isn't empty
-                    if (!table.isNeighboringCellsEmpty(possibleMove)) {
+                    if (!table.isNeighboringCellsEmpty(copyPossibleMove)) {
 
-                        flagMoveSuccessful = true;
+                        flagMoveSuccessful = table.isMovePossible(copyPossibleMove);
 
                     } else {
                         WarningDialog.callDialog(headerText, "Жодна з сусідніх клітинок не містить літери");
@@ -211,7 +210,10 @@ public class SinglePlayerGameController implements Initializable {
             WarningDialog.callDialog(headerText, "Такого слова немає в словнику");
         }
 
+        if (flagMoveSuccessful) {
+            playerUsed.add(possibleMove.getWord());
+            humanPlayer.addScores(possibleMove.wordLength());
+        }
         return flagMoveSuccessful;
     }
-
 }

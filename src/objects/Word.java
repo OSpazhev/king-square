@@ -9,12 +9,16 @@ public class Word {
     private String     word;
 
 
-    public Word() {
+    Word() {
         word = "";
     }
 
     public Word(String word) {
         this.word = word;
+    }
+
+    Word(Word word) {
+        this(word.getString());
     }
 
     public String getString() {
@@ -37,7 +41,23 @@ public class Word {
         return !incorrectWord;
     }
 
-    public boolean equals(Word second) {
+    boolean equals(Word second) {
         return word.equals(second.getString());
+    }
+
+    void removeFirstLetter() {
+        if (word.length() > 1) {
+            word = word.substring(1, word.length());
+        } else {
+            word = "";
+        }
+    }
+
+    char firstLetter() {
+        return word.toCharArray()[0];
+    }
+
+    int length() {
+        return word.length();
     }
 }

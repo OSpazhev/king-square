@@ -36,7 +36,6 @@ public class Table {
     }
 
     public boolean isNeighboringCellsEmpty(Move possibleMove) {
-
         boolean flagNeighboringCellsEmpty;
         int     coordX                    = possibleMove.getCoordX();
         int     coordY                    = possibleMove.getCoordY();
@@ -47,7 +46,6 @@ public class Table {
         flagNeighboringCellsEmpty &= (tableForGame[coordX][coordY - 1] == ' ');
 
         return flagNeighboringCellsEmpty;
-
     }
 
     private void setValueForCell(Move newValueForCell) {
@@ -55,9 +53,11 @@ public class Table {
         int     coordX                    = newValueForCell.getCoordX();
         int     coordY                    = newValueForCell.getCoordY();
 
+        //rewrite table
         tableForGame[coordX][coordY] = newValueForCell.getLetter();
-        tableForFXML.get(coordX - 1).set(coordY, newValueForCell.getLetter());
-
+        Row buffer = tableForFXML.get(coordX - 1);
+        buffer.set(coordY, newValueForCell.getLetter());
+        tableForFXML.set(coordX - 1, buffer);
     }
 
     public void setStartWord(Word startWord) {
@@ -69,15 +69,52 @@ public class Table {
             Move newValueForCell = new Move(X3, i + 1, startWordCh[i]);
 
             setValueForCell(newValueForCell);
-
         }
-
     }
 
-    private boolean isMoveStartFromThisCell(Move currentCell, Move move) {
+    private boolean isMoveContainThisCell(Move currentCell, Move move) {
         boolean flagMoveStartFromThisCell = false;
 
-        boolean usedCells [][] = new boolean[COLUMN_SIZE][ROW_SIZE];
+        Move copyMove        = new Move(move);
+        int currentCoordX    = currentCell.getCoordX();
+        int currentCoordY    = currentCell.getCoordY();
+
+        if (tableForGame[currentCoordX][currentCoordY] != ' ') {
+            if (copyMove.getFirstLetterOfWord() == tableForGame[currentCoordX][currentCoordY]) {
+
+                char buffer = tableForGame[currentCoordX][currentCoordY];
+                tableForGame[currentCoordX][currentCoordY] = ' ';
+                copyMove.removeFirstLetterOfWord();
+
+                if (copyMove.wordLength() == 0) {
+                    flagMoveStartFromThisCell = (tableForGame[copyMove.getCoordX()][copyMove.getCoordY()] == ' ');
+                } else {
+
+
+                    if (currentCoordX > 1) {
+                        Move newCurrentCell = new Move(currentCoordX - 1, currentCoordY);
+                        flagMoveStartFromThisCell = isMoveContainThisCell(newCurrentCell, copyMove);
+                    }
+
+                    if (!flagMoveStartFromThisCell && currentCoordX < COLUMN_SIZE - 1) {
+                        Move newCurrentCell = new Move(currentCoordX + 1, currentCoordY);
+                        flagMoveStartFromThisCell = isMoveContainThisCell(newCurrentCell, copyMove);
+                    }
+
+                    if (!flagMoveStartFromThisCell && currentCoordY > 1) {
+                        Move newCurrentCell = new Move(currentCoordX, currentCoordY - 1);
+                        flagMoveStartFromThisCell = isMoveContainThisCell(newCurrentCell, copyMove);
+                    }
+
+                    if (!flagMoveStartFromThisCell && currentCoordY < ROW_SIZE - 1) {
+                        Move newCurrentCell = new Move(currentCoordX, currentCoordY + 1);
+                        flagMoveStartFromThisCell = isMoveContainThisCell(newCurrentCell, copyMove);
+                    }
+                }
+
+                tableForGame[currentCoordX][currentCoordY] = buffer;
+            }
+        }
 
         return flagMoveStartFromThisCell;
     }
@@ -85,23 +122,27 @@ public class Table {
     public boolean isMovePossible(Move move) {
         boolean flagMovePossible = false;
 
-        int requiredCoordX = move.getCoordX();
-        int requiredCoordY = move.getCoordY();
-        
-        tableForGame[requiredCoordX][requiredCoordY] =  move.getLetter();
+        Move copyMove = new Move(move);
+
+        int requiredCoordX = copyMove.getCoordX();
+        int requiredCoordY = copyMove.getCoordY();
+        tableForGame[requiredCoordX][requiredCoordY] =  copyMove.getLetter();
 
         for (int i = 1; i < COLUMN_SIZE; i++) {
             for (int j = 1; j < ROW_SIZE; j++) {
                 Move currentCell = new Move(i, j);
-
-                if (tableForGame[i][j] == move.getWord().getString().toCharArray()[0] && isMoveStartFromThisCell(currentCell, move)) {
-                    flagMovePossible = true;
+                if (!flagMovePossible) {
+                    // if first letter equal to current cell and check possibility to make move from this cell
+                    if (tableForGame[i][j] == move.getFirstLetterOfWord() && isMoveContainThisCell(currentCell, copyMove)) {
+                        flagMovePossible = true;
+                    }
                 }
             }
         }
-        
+
+        // if player's move is successful
         if (flagMovePossible) {
-            setValueForCell(move);
+            setValueForCell(copyMove);
         } else {
             tableForGame[requiredCoordX][requiredCoordY] =  ' ';
         }
