@@ -1,9 +1,6 @@
 package controllers;
 
-import interfaces.implementations.ErrorDialog;
-import interfaces.implementations.HumanPlayer;
-import interfaces.implementations.PCPlayer;
-import interfaces.implementations.WarningDialog;
+import interfaces.implementations.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -74,10 +71,11 @@ public class SinglePlayerGameController implements Initializable {
 
     private static ListOfWords       pcUsed       = new ListOfWords();
     private static ListOfWords       playerUsed   = new ListOfWords();
+    private static Word              startWord;
 
     private FXMLLoader               fxmlLoader   = new FXMLLoader();
     private Parent                   fxmlEdit;
-    private Scene                    scene;
+    private static Scene                    scene;
 
 
     @FXML
@@ -86,14 +84,10 @@ public class SinglePlayerGameController implements Initializable {
         loadFXMLFile();
 
         // chose starting word
-        Word startWord = vocabulary.getFiveLetterWord();
+        startWord = vocabulary.getFiveLetterWord();
 
         // set starting word to the table
         table.setStartWord(startWord);
-
-        // add starting word to usedWord List
-        pcUsed.add(startWord);
-        playerUsed.add(startWord);
 
         // set to the columns appropriate field of object person
         columnNamesOfRows.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -176,44 +170,72 @@ public class SinglePlayerGameController implements Initializable {
 
     }
 
+    private static void closeCurrentWindow() {
+        Stage stage = (Stage)((Stage)scene.getWindow()).getOwner();
+        stage.close();
+    }
+
     static boolean tryToMakeMoveBy(Move possibleMove) {
-        boolean flagMoveSuccessful = false;
+        try{
 
-        String headerText = "Помилка при спробі зробити хід";
+            boolean flagMoveSuccessful = false;
 
-        Move copyPossibleMove = new Move(possibleMove);
+            String headerText = "Помилка при спробі зробити хід";
 
-        // if word is in vocabulary
-        if (vocabulary.isWordInVocabulary(copyPossibleMove.getWord())) {
+            Move copyPossibleMove = new Move(possibleMove);
 
-            // if word wasn't used
-            if (!pcUsed.isUsed(copyPossibleMove.getWord()) && !playerUsed.isUsed(copyPossibleMove.getWord())) {
+            // if word is in vocabulary
+            if (vocabulary.isWordInVocabulary(copyPossibleMove.getWord())) {
 
-                // if chosen cell is empty
-                if (table.isCellEmpty(copyPossibleMove)) {
+                // if word wasn't used
+                if (!pcUsed.isUsed(copyPossibleMove.getWord())
+                        && !playerUsed.isUsed(copyPossibleMove.getWord())
+                        && !startWord.equals(copyPossibleMove.getWord())) {
 
-                    // if neighboring cells isn't empty
-                    if (!table.isNeighboringCellsEmpty(copyPossibleMove)) {
+                    // if chosen cell is empty
+                    if (table.isCellEmpty(copyPossibleMove)) {
 
-                        flagMoveSuccessful = table.isMovePossible(copyPossibleMove);
+                        // if neighboring cells isn't empty
+                        if (!table.isNeighboringCellsEmpty(copyPossibleMove)) {
 
+                            flagMoveSuccessful = table.isMovePossible(copyPossibleMove);
+
+                        } else {
+                            WarningDialog.callDialog(headerText, "Жодна з сусідніх клітинок не містить літери");
+                        }
                     } else {
-                        WarningDialog.callDialog(headerText, "Жодна з сусідніх клітинок не містить літери");
+                        WarningDialog.callDialog(headerText, "Дана клітинка поля вже зайнята");
                     }
                 } else {
-                    WarningDialog.callDialog(headerText, "Дана клітинка поля вже зайнята");
+                    WarningDialog.callDialog(headerText, "Дане слово вже було використане в цій грі");
                 }
             } else {
-                WarningDialog.callDialog(headerText, "Дане слово вже було використане в цій грі");
+                WarningDialog.callDialog(headerText, "Такого слова немає в словнику");
             }
-        } else {
-            WarningDialog.callDialog(headerText, "Такого слова немає в словнику");
-        }
 
-        if (flagMoveSuccessful) {
-            playerUsed.add(possibleMove.getWord());
-            humanPlayer.addScores(possibleMove.wordLength());
+            if (flagMoveSuccessful) {
+                playerUsed.add(possibleMove.getWord());
+                humanPlayer.addScores(possibleMove.wordLength());
+            }
+
+            return flagMoveSuccessful;
+        } finally {
+            if (table.isFull())
+            {
+                String finalScores = "Кінцевий рахунок гри " + humanPlayer.getScores() + ":" + pcPlayer.getScores();
+                String winer;
+
+                if (humanPlayer.getScores() > pcPlayer.getScores()) {
+                    winer = "Виграв гравець " + humanPlayer.getName();
+                } else if (humanPlayer.getScores() < pcPlayer.getScores()) {
+                    winer = "Виграв гравець " + pcPlayer.getName();
+                } else {
+                    winer = "Гра завершилась з нічийним рахунком";
+                }
+
+                EndGameDialog.callDialog(winer, finalScores);
+                closeCurrentWindow();
+            }
         }
-        return flagMoveSuccessful;
     }
 }

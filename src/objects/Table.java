@@ -149,4 +149,16 @@ public class Table {
 
         return flagMovePossible;
     }
+
+    public boolean isFull() {
+        boolean flagFull = true;
+
+        for (int i = 1; i < COLUMN_SIZE; i++) {
+            for (int j = 1; j < ROW_SIZE; j++) {
+                flagFull &= (tableForGame[i][j] != ' ');
+            }
+        }
+
+        return flagFull;
+    }
 }

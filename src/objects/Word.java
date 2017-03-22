@@ -41,7 +41,7 @@ public class Word {
         return !incorrectWord;
     }
 
-    boolean equals(Word second) {
+    public boolean equals(Word second) {
         return word.equals(second.getString());
     }
 

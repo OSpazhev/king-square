@@ -68,6 +68,9 @@ public class DialogMoveOfThePlayerController implements Initializable{
         // if move was successful
         if (SinglePlayerGameController.tryToMakeMoveBy(possibleMove)) {
             closeCurrentWindow();
+        } else {
+            WarningDialog.callDialog("При спробі зробити хід щось пішло не так",
+                    "Введене вами слово відсутнє в таблиці або не містить нової літери");
         }
     }
 
@@ -87,7 +90,6 @@ public class DialogMoveOfThePlayerController implements Initializable{
         } else {
             sendDataToTheSinglePlayerGameController();
         }
-
     }
 
     public void pressedButton(ActionEvent actionEvent) {
