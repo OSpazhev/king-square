@@ -38,6 +38,11 @@ public class ListOfWords {
         return flagUsed;
     }
 
+    public void skipMove()
+    {
+        usedWords.add("---Пропуск ходу---");
+    }
+
     public ObservableList<String> getList() {
         return usedWords;
     }

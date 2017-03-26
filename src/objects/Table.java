@@ -174,12 +174,64 @@ public class Table {
         return flagFull;
     }
 
+    private void dfs(Move curMove, Move move, List<Word> allFoundWords) {
+        Move copyNewWord = new Move(curMove);
+        int coordX = curMove.getCoordX();
+        int coordY = curMove.getCoordY();
+
+
+        copyNewWord.setWord(new Word(curMove.getWord().getString() + curMove.getLetter()));
+        tableForGame[coordX][coordY] = ' ';
+
+        if (tableForGame[move.getCoordX()][move.getCoordY()] == ' ')
+        {
+            if (Vocabulary.isWordInVocabulary(copyNewWord.getWord())) {
+                allFoundWords.add(copyNewWord.getWord());
+            }
+        }
+
+        if (tableForGame[coordX - 1][coordY] != ' ')
+        {
+            Move nextMove = new Move(coordX - 1, coordY, tableForGame[coordX - 1][coordY], copyNewWord.getWord());
+            dfs(nextMove, move, allFoundWords);
+        }
+        if (tableForGame[coordX + 1][coordY] != ' ')
+        {
+            Move nextMove = new Move(coordX + 1, coordY, tableForGame[coordX + 1][coordY], copyNewWord.getWord());
+            dfs(nextMove, move, allFoundWords);
+        }
+        if (tableForGame[coordX][coordY - 1] != ' ')
+        {
+            Move nextMove = new Move(coordX, coordY - 1, tableForGame[coordX][coordY - 1], copyNewWord.getWord());
+            dfs(nextMove, move, allFoundWords);
+        }
+        if (tableForGame[coordX][coordY + 1] != ' ')
+        {
+            Move nextMove = new Move(coordX, coordY + 1, tableForGame[coordX][coordY + 1], copyNewWord.getWord());
+            dfs(nextMove, move, allFoundWords);
+        }
+        tableForGame[coordX][coordY] = curMove.getLetter();
+    }
+
+    private List<Word> findAllWordInTable(Move move) {
+
+        List <Word> allFoundWords = new ArrayList<>();
+
+        for (int i = 1; i < COLUMN_SIZE; i++) {
+            for (int j = 1; j < ROW_SIZE; j++) {
+                if (tableForGame[i][j] != ' ') {
+                    Move newMove = new Move(i, j, tableForGame[i][j]);
+                    dfs(newMove, move, allFoundWords);
+                }
+            }
+        }
+        return allFoundWords;
+
+    }
+
     public List<Move> findAllMoves() {
 
         List<Move> possibleMoves = new ArrayList<>();
-
-        Word vocabulary[] = new Word[0];
-        vocabulary = Vocabulary.getVocabulary().toArray(vocabulary);
 
         for (int i = 1; i < COLUMN_SIZE; i++) {
             for (int j = 1; j < ROW_SIZE; j++) {
@@ -189,14 +241,11 @@ public class Table {
                     for (char letter : LETTERS) {
                         tableForGame[i][j] = letter;
                         possibleMove.setLetter(letter);
-
-                        for (Word word : vocabulary) {
-                            possibleMove.setWord(word);
-
-                            if (isMovePossible(possibleMove)) {
-                                Move iDoNotKnowWhy = new Move(possibleMove);
-                                possibleMoves.add(iDoNotKnowWhy);
-                            }
+                        Move copyPossibleMove = new Move(possibleMove);
+                        List <Word> possibleWordsInTable = findAllWordInTable(copyPossibleMove);
+                        for (Word newPossibleWord : possibleWordsInTable) {
+                            copyPossibleMove.setWord(newPossibleWord);
+                            possibleMoves.add(copyPossibleMove);
                         }
                     }
                     tableForGame[i][j] = ' ';
