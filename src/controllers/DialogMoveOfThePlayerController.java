@@ -66,11 +66,9 @@ public class DialogMoveOfThePlayerController implements Initializable{
         possibleMove.setCoordY(chbxCoordY.getValue());
 
         // if move was successful
-        if (SinglePlayerGameController.tryToMakeMoveBy(possibleMove)) {
+        if (SinglePlayerGameController.tryToMakeMoveByPlayer(possibleMove)) {
             closeCurrentWindow();
-        } else {
-            WarningDialog.callDialog("При спробі зробити хід щось пішло не так",
-                    "Введене вами слово відсутнє в таблиці або не містить нової літери");
+            SinglePlayerGameController.makeMoveByPC();
         }
     }
 

@@ -32,7 +32,7 @@ public class Move {
         this(move.getCoordX(), move.getCoordY(), move.getLetter(), move.getWord());
     }
 
-    public void setLetter(char letter) {
+    void setLetter(char letter) {
         this.letter = letter;
     }
 
@@ -78,6 +78,10 @@ public class Move {
 
     public String getStringCoordY() {
         return stringCoordY;
+    }
+
+    void setWord(Word word) {
+        this.word = word;
     }
 
     public Word getWord() {

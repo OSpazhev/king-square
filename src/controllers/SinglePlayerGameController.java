@@ -16,12 +16,13 @@ import objects.*;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class SinglePlayerGameController implements Initializable {
 
     @FXML
     private Label                    labelNameOfTheMovingPlayer;
+    private static Label             copyLabelNameOfTheMovingPlayer;
 
     @FXML
     private Label                    labelNameOfThePlayer;
@@ -67,15 +68,13 @@ public class SinglePlayerGameController implements Initializable {
 
     private static Table             table        = new Table();
 
-    private static Vocabulary        vocabulary   = new Vocabulary();
-
     private static ListOfWords       pcUsed       = new ListOfWords();
     private static ListOfWords       playerUsed   = new ListOfWords();
     private static Word              startWord;
 
     private FXMLLoader               fxmlLoader   = new FXMLLoader();
     private Parent                   fxmlEdit;
-    private static Scene                    scene;
+    private static Scene             scene;
 
 
     @FXML
@@ -83,8 +82,9 @@ public class SinglePlayerGameController implements Initializable {
 
         loadFXMLFile();
 
+        new Vocabulary();
         // chose starting word
-        startWord = vocabulary.getFiveLetterWord();
+        startWord = Vocabulary.getFiveLetterWord();
 
         // set starting word to the table
         table.setStartWord(startWord);
@@ -106,8 +106,6 @@ public class SinglePlayerGameController implements Initializable {
         columnY5.setStyle("-fx-alignment: CENTER;");
 
         // connect gaming table with FXML table
-        String headerText = "Щось не так з ігровою таблицею";
-
         tablePlayingField.setItems(table.getTable());
 
         // connect gaming usedWords Lists with FXML Lists View
@@ -131,7 +129,6 @@ public class SinglePlayerGameController implements Initializable {
     }
 
     public void showDialogMoveOfThePlayer(ActionEvent actionEvent) {
-
         try {
 
             Stage stage = new Stage();
@@ -151,6 +148,11 @@ public class SinglePlayerGameController implements Initializable {
 
     }
 
+    private static void setNameOfTheMovingPlayer(String name) {
+        String currentPlayer = "Зараз хід гравця: " + name;
+        copyLabelNameOfTheMovingPlayer.setText(currentPlayer);
+    }
+
     void setPlayersNamesToLabels(String humanPlayerName) {
 
         // create players
@@ -165,9 +167,9 @@ public class SinglePlayerGameController implements Initializable {
         pcPlayer.setListener(labelScoresOfPC);
         humanPlayer.setListener(labelScoresOfThePlayer);
 
-        String currentPlayer = "Зараз хід гравця: " + humanPlayer.getName();
-        labelNameOfTheMovingPlayer.setText(currentPlayer);
+        copyLabelNameOfTheMovingPlayer = labelNameOfTheMovingPlayer;
 
+        setNameOfTheMovingPlayer(humanPlayer.getName());
     }
 
     private static void closeCurrentWindow() {
@@ -175,31 +177,52 @@ public class SinglePlayerGameController implements Initializable {
         stage.close();
     }
 
-    static boolean tryToMakeMoveBy(Move possibleMove) {
-        try{
+    private static boolean isWordUsed(Move possibleMove) {
+        return pcUsed.isUsed(possibleMove.getWord())
+                || playerUsed.isUsed(possibleMove.getWord())
+                || startWord.equals(possibleMove.getWord());
+    }
 
+    private static void outResults() {
+        if (table.isFull())
+        {
+            String finalScores = "Кінцевий рахунок гри " + humanPlayer.getScores() + ":" + pcPlayer.getScores();
+            String winner;
+
+            if (humanPlayer.getScores() > pcPlayer.getScores()) {
+                winner = "Виграв гравець " + humanPlayer.getName();
+            } else if (humanPlayer.getScores() < pcPlayer.getScores()) {
+                winner = "Виграв гравець " + pcPlayer.getName();
+            } else {
+                winner = "Гра завершилась з нічийним рахунком";
+            }
+
+            EndGameDialog.callDialog(winner, finalScores);
+            closeCurrentWindow();
+        }
+    }
+
+    static boolean tryToMakeMoveByPlayer(Move possibleMove) {
+        try{
+            setNameOfTheMovingPlayer(humanPlayer.getName());
             boolean flagMoveSuccessful = false;
 
             String headerText = "Помилка при спробі зробити хід";
 
             Move copyPossibleMove = new Move(possibleMove);
-
             // if word is in vocabulary
-            if (vocabulary.isWordInVocabulary(copyPossibleMove.getWord())) {
-
+            if (Vocabulary.isWordInVocabulary(copyPossibleMove.getWord())) {
                 // if word wasn't used
-                if (!pcUsed.isUsed(copyPossibleMove.getWord())
-                        && !playerUsed.isUsed(copyPossibleMove.getWord())
-                        && !startWord.equals(copyPossibleMove.getWord())) {
-
+                if (!isWordUsed(possibleMove)) {
                     // if chosen cell is empty
                     if (table.isCellEmpty(copyPossibleMove)) {
-
                         // if neighboring cells isn't empty
                         if (!table.isNeighboringCellsEmpty(copyPossibleMove)) {
-
                             flagMoveSuccessful = table.isMovePossible(copyPossibleMove);
-
+                            if (!flagMoveSuccessful) {
+                                WarningDialog.callDialog("При спробі зробити хід щось пішло не так",
+                                        "Введене вами слово відсутнє в таблиці або не містить нової літери");
+                            }
                         } else {
                             WarningDialog.callDialog(headerText, "Жодна з сусідніх клітинок не містить літери");
                         }
@@ -216,26 +239,34 @@ public class SinglePlayerGameController implements Initializable {
             if (flagMoveSuccessful) {
                 playerUsed.add(possibleMove.getWord());
                 humanPlayer.addScores(possibleMove.wordLength());
+                setNameOfTheMovingPlayer(pcPlayer.getName());
+                table.setValueForCell(copyPossibleMove);
             }
 
             return flagMoveSuccessful;
         } finally {
-            if (table.isFull())
-            {
-                String finalScores = "Кінцевий рахунок гри " + humanPlayer.getScores() + ":" + pcPlayer.getScores();
-                String winer;
-
-                if (humanPlayer.getScores() > pcPlayer.getScores()) {
-                    winer = "Виграв гравець " + humanPlayer.getName();
-                } else if (humanPlayer.getScores() < pcPlayer.getScores()) {
-                    winer = "Виграв гравець " + pcPlayer.getName();
-                } else {
-                    winer = "Гра завершилась з нічийним рахунком";
-                }
-
-                EndGameDialog.callDialog(winer, finalScores);
-                closeCurrentWindow();
-            }
+            outResults();
         }
+    }
+
+    static void makeMoveByPC() {
+        setNameOfTheMovingPlayer(pcPlayer.getName());
+
+        List<Move> possibleMoves = table.findAllMoves();
+
+        Random rand = new Random();
+        int randIndex = Math.abs(rand.nextInt()) % possibleMoves.size();
+        Move pcMove = possibleMoves.get(randIndex);
+        while (isWordUsed(pcMove)) {
+            randIndex = Math.abs(rand.nextInt()) % possibleMoves.size();
+            pcMove = possibleMoves.get(randIndex);
+        }
+
+        pcUsed.add(pcMove.getWord());
+        pcPlayer.addScores(pcMove.wordLength());
+        table.setValueForCell(pcMove);
+        setNameOfTheMovingPlayer(humanPlayer.getName());
+
+        outResults();
     }
 }

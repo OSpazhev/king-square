@@ -3,11 +3,19 @@ package objects;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
+
 public class Table {
 
     private final int           ROW_SIZE    = 6;
     private final int           COLUMN_SIZE = 6;
     private final int           X3          = 3;
+
+    private final char          LETTERS[] = {'а', 'б', 'в', 'г', 'ґ', 'д', 'е', 'є', 'ж', 'з', 'и',
+                                             'і', 'ї', 'й', 'к', 'л', 'м', 'н', 'о', 'п', 'р', 'с',
+                                             'т', 'у', 'ф', 'х', 'ц', 'ч', 'ш', 'щ', 'ь', 'ю', 'я'};
 
     private ObservableList<Row> tableForFXML = FXCollections.observableArrayList();
 
@@ -15,6 +23,15 @@ public class Table {
 
     public ObservableList<Row> getTable() {
         return tableForFXML;
+    }
+
+    private void showTable() {
+        for (int i1 = 1; i1 < COLUMN_SIZE; i1++) {
+            for (int j1 = 1; j1 < ROW_SIZE; j1++) {
+                System.out.print(tableForGame[i1][j1] + " ");
+            }
+            System.out.println();
+        }
     }
 
     public Table() {
@@ -48,7 +65,7 @@ public class Table {
         return flagNeighboringCellsEmpty;
     }
 
-    private void setValueForCell(Move newValueForCell) {
+    public void setValueForCell(Move newValueForCell) {
 
         int     coordX                    = newValueForCell.getCoordX();
         int     coordY                    = newValueForCell.getCoordY();
@@ -126,7 +143,7 @@ public class Table {
 
         int requiredCoordX = copyMove.getCoordX();
         int requiredCoordY = copyMove.getCoordY();
-        tableForGame[requiredCoordX][requiredCoordY] =  copyMove.getLetter();
+        tableForGame[requiredCoordX][requiredCoordY] = copyMove.getLetter();
 
         for (int i = 1; i < COLUMN_SIZE; i++) {
             for (int j = 1; j < ROW_SIZE; j++) {
@@ -140,12 +157,7 @@ public class Table {
             }
         }
 
-        // if player's move is successful
-        if (flagMovePossible) {
-            setValueForCell(copyMove);
-        } else {
-            tableForGame[requiredCoordX][requiredCoordY] =  ' ';
-        }
+        tableForGame[requiredCoordX][requiredCoordY] = ' ';
 
         return flagMovePossible;
     }
@@ -160,5 +172,38 @@ public class Table {
         }
 
         return flagFull;
+    }
+
+    public List<Move> findAllMoves() {
+
+        List<Move> possibleMoves = new ArrayList<>();
+
+        Word vocabulary[] = new Word[0];
+        vocabulary = Vocabulary.getVocabulary().toArray(vocabulary);
+
+        for (int i = 1; i < COLUMN_SIZE; i++) {
+            for (int j = 1; j < ROW_SIZE; j++) {
+                //showTable();
+                Move possibleMove = new Move(i, j);
+                if (!isNeighboringCellsEmpty(possibleMove) && isCellEmpty(possibleMove)) {
+                    for (char letter : LETTERS) {
+                        tableForGame[i][j] = letter;
+                        possibleMove.setLetter(letter);
+
+                        for (Word word : vocabulary) {
+                            possibleMove.setWord(word);
+
+                            if (isMovePossible(possibleMove)) {
+                                Move iDoNotKnowWhy = new Move(possibleMove);
+                                possibleMoves.add(iDoNotKnowWhy);
+                            }
+                        }
+                    }
+                    tableForGame[i][j] = ' ';
+                }
+            }
+        }
+
+        return possibleMoves;
     }
 }

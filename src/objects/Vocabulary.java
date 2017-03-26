@@ -12,12 +12,12 @@ import java.util.Random;
 import java.util.Vector;
 
 
-public class Vocabulary {
+public final class Vocabulary {
 
-    private Vector<Word>    vocabulary     = new Vector<>();
-    private ArrayList<Word> fiveLetterWord = new ArrayList<>();
+    private static Vector<Word> vocabulary     = new Vector<>();
+    private static ArrayList<Word>     fiveLetterWord = new ArrayList<>();
 
-    private boolean IsCorrectWordForVocabulary(Word possibleWord) {
+    private static boolean IsCorrectWordForVocabulary(Word possibleWord) {
         boolean flag = false;
 
         if (possibleWord.isCorrectWordInUkrainian()) {
@@ -52,13 +52,13 @@ public class Vocabulary {
         }
     }
 
-    public Word getFiveLetterWord() {
+    public static Word getFiveLetterWord() {
         Random rand = new Random();
 
         return fiveLetterWord.get(Math.abs(rand.nextInt()) % fiveLetterWord.size());
     }
 
-    public boolean isWordInVocabulary(Word possibleWord) {
+    public static boolean isWordInVocabulary(Word possibleWord) {
         boolean flagWordInVocabulary = false;
 
         for (Word vocabularyWord : vocabulary) {
@@ -68,5 +68,9 @@ public class Vocabulary {
         }
 
         return flagWordInVocabulary;
+    }
+
+    static Vector<Word> getVocabulary() {
+        return vocabulary;
     }
 }
