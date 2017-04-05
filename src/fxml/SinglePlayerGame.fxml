@@ -51,7 +51,7 @@
                                     <Insets top="20.0" />
                                  </VBox.margin>
                               </Button>
-                              <Button fx:id="btnSkipMove" mnemonicParsing="false" onAction="#skipMove" prefHeight="40.0" prefWidth="240.0" text="Пропустити хід">
+                              <Button fx:id="btnSkipMove" mnemonicParsing="false" prefHeight="40.0" prefWidth="240.0" text="Пропустити хід">
                                  <opaqueInsets>
                                     <Insets top="20.0" />
                                  </opaqueInsets>
@@ -59,7 +59,7 @@
                                     <Insets top="20.0" />
                                  </VBox.margin>
                               </Button>
-                              <Button fx:id="btnGiveUp" mnemonicParsing="false" onAction="#giveUp" prefHeight="40.0" prefWidth="240.0" text="Здатися">
+                              <Button fx:id="btnGiveUp" mnemonicParsing="false" prefHeight="40.0" prefWidth="240.0" text="Здатися">
                                  <opaqueInsets>
                                     <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                                  </opaqueInsets>

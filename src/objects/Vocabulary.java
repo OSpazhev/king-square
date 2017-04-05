@@ -6,17 +6,29 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.Vector;
 
 
 public final class Vocabulary {
 
-    private static Set<String> vocabulary           = new HashSet<>();
-    private static ArrayList<Word> fiveLetterWord = new ArrayList<>();
-
+    private static Vector<Word> vocabulary     = new Vector<>();
+    private static ArrayList<Word>     fiveLetterWord = new ArrayList<>();
 
     private static boolean IsCorrectWordForVocabulary(Word possibleWord) {
-        return possibleWord.isCorrectWordInUkrainian() && (vocabulary.isEmpty() || vocabulary.add(possibleWord.getString()));
+        boolean flag = false;
+
+        if (possibleWord.isCorrectWordInUkrainian()) {
+            if (vocabulary.isEmpty()) {
+                flag = true;
+            } else if (!possibleWord.getString().equals(vocabulary.lastElement().getString())){
+                flag = true;
+            }
+        }
+
+        return flag;
     }
 
     public Vocabulary() {
@@ -29,7 +41,7 @@ public final class Vocabulary {
                 //line = new String(line.getBytes("ISO-8859-1"), "windows-1251");
                 Word possibleWord = new Word(line);
                 if (IsCorrectWordForVocabulary(possibleWord)) {
-                    vocabulary.add(possibleWord.getString());
+                    vocabulary.add(possibleWord);
                     if (possibleWord.getString().length() == 5) {
                         fiveLetterWord.add(possibleWord);
                     }
@@ -47,7 +59,18 @@ public final class Vocabulary {
     }
 
     public static boolean isWordInVocabulary(Word possibleWord) {
-        return vocabulary.contains(possibleWord.getString());
+        boolean flagWordInVocabulary = false;
+
+        for (Word vocabularyWord : vocabulary) {
+            if (vocabularyWord.equals(possibleWord)) {
+                flagWordInVocabulary = true;
+            }
+        }
+
+        return flagWordInVocabulary;
     }
 
+    static Vector<Word> getVocabulary() {
+        return vocabulary;
+    }
 }

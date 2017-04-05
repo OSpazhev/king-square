@@ -173,7 +173,7 @@ public class SinglePlayerGameController implements Initializable {
     }
 
     private static void closeCurrentWindow() {
-        Stage stage = (Stage) copyLabelNameOfTheMovingPlayer.getScene().getWindow();
+        Stage stage = (Stage)((Stage)scene.getWindow()).getOwner();
         stage.close();
     }
 
@@ -268,19 +268,5 @@ public class SinglePlayerGameController implements Initializable {
         setNameOfTheMovingPlayer(humanPlayer.getName());
 
         outResults();
-    }
-
-    public void skipMove(ActionEvent actionEvent) {
-        playerUsed.skipMove();
-        setNameOfTheMovingPlayer(pcPlayer.getName());
-        makeMoveByPC();
-    }
-
-    public void giveUp(ActionEvent actionEvent) {
-        String winner = "Виграв гравець " + pcPlayer.getName() + ", оскільки гравець " + humanPlayer.getName() + " здався";
-        String finalScores = "Кінцевий рахунок гри " + humanPlayer.getScores() + ":" + pcPlayer.getScores();
-        EndGameDialog.callDialog(winner, finalScores);
-        closeCurrentWindow();
-
     }
 }
