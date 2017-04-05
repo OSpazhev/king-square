@@ -119,7 +119,7 @@ public class SinglePlayerGameController implements Initializable {
 
         try {
 
-            fxmlLoader.setLocation(getClass().getResource("../fxml/DialogMoveOfThePlayer.fxml"));
+            fxmlLoader.setLocation(getClass().getResource("/fxml/DialogMoveOfThePlayer.fxml"));
             fxmlEdit = fxmlLoader.load();
             scene = new Scene(fxmlEdit);
         } catch (IOException e) {
@@ -129,23 +129,17 @@ public class SinglePlayerGameController implements Initializable {
     }
 
     public void showDialogMoveOfThePlayer(ActionEvent actionEvent) {
-        try {
+        Stage stage = new Stage();
 
-            Stage stage = new Stage();
+        stage.setTitle("Хід гравця");
+        stage.setScene(scene);
+        stage.setResizable(false);
 
-            stage.setTitle("Хід гравця");
-            stage.setScene(scene);
-            stage.setResizable(false);
+        // do new window modal
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(((Node) actionEvent.getSource()).getScene().getWindow());
 
-            // do new window modal
-            stage.initModality(Modality.WINDOW_MODAL);
-            stage.initOwner(((Node)actionEvent.getSource()).getScene().getWindow());
-
-            stage.show();
-        } catch(Exception e) {
-            ErrorDialog.callDialog("Проблеми з відкриттям вікна", null);
-        }
-
+        stage.show();
     }
 
     private static void setNameOfTheMovingPlayer(String name) {
@@ -270,13 +264,13 @@ public class SinglePlayerGameController implements Initializable {
         outResults();
     }
 
-    public void skipMove(ActionEvent actionEvent) {
+    public void skipMove() {
         playerUsed.skipMove();
         setNameOfTheMovingPlayer(pcPlayer.getName());
         makeMoveByPC();
     }
 
-    public void giveUp(ActionEvent actionEvent) {
+    public void giveUp() {
         String winner = "Виграв гравець " + pcPlayer.getName() + ", оскільки гравець " + humanPlayer.getName() + " здався";
         String finalScores = "Кінцевий рахунок гри " + humanPlayer.getScores() + ":" + pcPlayer.getScores();
         EndGameDialog.callDialog(winner, finalScores);

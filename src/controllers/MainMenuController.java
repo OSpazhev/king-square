@@ -32,7 +32,7 @@ public class MainMenuController implements Initializable {
 
     private void loadFXMLFile() {
         try {
-            fxmlLoader.setLocation(getClass().getResource("../fxml/DialogBeforeStartSinglePlayerGame.fxml"));
+            fxmlLoader.setLocation(getClass().getResource("/fxml/DialogBeforeStartSinglePlayerGame.fxml"));
             fxmlScene = fxmlLoader.load();
             scene = new Scene(fxmlScene);
         } catch (IOException e) {
