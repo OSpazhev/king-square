@@ -9,7 +9,7 @@ public class Move {
     private String stringCoordY;
     private Word   word;
 
-    private Move(int coordX, int coordY, char letter, Word word) {
+    Move(int coordX, int coordY, char letter, Word word) {
         this.coordX = coordX;
         this.coordY = coordY;
         this.letter = letter;
