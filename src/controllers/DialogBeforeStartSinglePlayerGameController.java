@@ -31,7 +31,7 @@ public class DialogBeforeStartSinglePlayerGameController {
 
     private void loadFXMLFile() {
         try {
-            fxmlLoader.setLocation(getClass().getResource("../fxml/SinglePlayerGame.fxml"));
+            fxmlLoader.setLocation(getClass().getResource("/fxml/SinglePlayerGame.fxml"));
             fxmlEdit = fxmlLoader.load();
         } catch (IOException e) {
             ErrorDialog.callDialog("Помилка при спробі завантажити файл", "Проблеми із завантаженням fxml файлу");
@@ -48,30 +48,25 @@ public class DialogBeforeStartSinglePlayerGameController {
 
     // method is called after push button btnOK
     public void startGame(ActionEvent actionEvent) {
-        try {
-            // if entered field with name of human player wasn't empty
-            if (!txtName.getText().isEmpty()) {
-                // close DialogBeforeStartSinglePlayerGame.fxml and MainMenu.fxml
-                closePreviousWindows(actionEvent);
+        // if entered field with name of human player wasn't empty
+        if (!txtName.getText().isEmpty()) {
+            // close DialogBeforeStartSinglePlayerGame.fxml and MainMenu.fxml
+            closePreviousWindows(actionEvent);
 
-                Stage stage = new Stage();
+            Stage stage = new Stage();
 
-                // load Scene for stage from FXMLFile
-                loadFXMLFile();
+            // load Scene for stage from FXMLFile
+            loadFXMLFile();
 
-                // transfer entered name of the human player to the game Window
-                transferHumanPlayerName(txtName.getText());
+            // transfer entered name of the human player to the game Window
+            transferHumanPlayerName(txtName.getText());
 
-                stage.setTitle("Гра Балда. Гра проти комп'ютера");
-                stage.setScene(new Scene(fxmlEdit));
-                stage.show();
-            } else {
-                ErrorDialog.callDialog("Помилка при спробі почати гру", "Ви не ввели ім'я");
-
-                txtName.setPromptText("Введіть тут ваше ім'я");
-            }
-        } catch (Exception e) {
-            ErrorDialog.callDialog("Помилка при спробі почати гру", null);
+            stage.setTitle("Гра Королівський квадрат. Гра проти комп'ютера");
+            stage.setScene(new Scene(fxmlEdit));
+            stage.show();
+        } else {
+            ErrorDialog.callDialog("Помилка при спробі почати гру", "Ви не ввели ім'я");
+            txtName.setPromptText("Введіть тут ваше ім'я");
         }
     }
 }
