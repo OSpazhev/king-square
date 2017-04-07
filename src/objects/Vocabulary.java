@@ -2,8 +2,7 @@ package objects;
 
 import interfaces.implementations.ErrorDialog;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.*;
@@ -11,7 +10,7 @@ import java.util.*;
 
 public final class Vocabulary {
 
-    private static Set<String> vocabulary           = new HashSet<>();
+    private static Set<String> vocabulary         = new HashSet<>();
     private static ArrayList<Word> fiveLetterWord = new ArrayList<>();
 
 
@@ -22,15 +21,23 @@ public final class Vocabulary {
     public Vocabulary() {
         try {
             // read vocabulary from file(in each line only one word)
-            File txtVocabulary = new File("vocabularies/vocabulary_for_game.txt");
-            List<String> lines = Files.readAllLines(txtVocabulary.toPath(), StandardCharsets.UTF_8);
+            ArrayList wordList = new ArrayList();
+            InputStream inputStream = Vocabulary.class.getResourceAsStream("vocabulary_for_game.txt");
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 
-            for (String line : lines) {
-                //line = new String(line.getBytes("ISO-8859-1"), "windows-1251");
+            String word;
+            while((word = reader.readLine()) != null) {
+                wordList.add(word);
+            }
+
+            Iterator iterator = wordList.iterator();
+
+            while(iterator.hasNext()) {
+                String line = (String)iterator.next();
                 Word possibleWord = new Word(line);
-                if (IsCorrectWordForVocabulary(possibleWord)) {
+                if(IsCorrectWordForVocabulary(possibleWord)) {
                     vocabulary.add(possibleWord.getString());
-                    if (possibleWord.getString().length() == 5) {
+                    if(possibleWord.getString().length() == 5) {
                         fiveLetterWord.add(possibleWord);
                     }
                 }
