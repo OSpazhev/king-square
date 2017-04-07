@@ -61,18 +61,22 @@ public class Table {
         flagNeighboringCellsEmpty &= (tableForGame[coordX - 1][coordY] == ' ');
         flagNeighboringCellsEmpty &= (tableForGame[coordX][coordY + 1] == ' ');
         flagNeighboringCellsEmpty &= (tableForGame[coordX][coordY - 1] == ' ');
+        flagNeighboringCellsEmpty  = (tableForGame[coordX + 1][coordY + 1] == ' ');
+        flagNeighboringCellsEmpty &= (tableForGame[coordX - 1][coordY - 1] == ' ');
+        flagNeighboringCellsEmpty &= (tableForGame[coordX - 1][coordY + 1] == ' ');
+        flagNeighboringCellsEmpty &= (tableForGame[coordX + 1][coordY - 1] == ' ');
 
         return flagNeighboringCellsEmpty;
     }
 
     public void setValueForCell(Move newValueForCell) {
 
-        int     coordX                    = newValueForCell.getCoordX();
-        int     coordY                    = newValueForCell.getCoordY();
+        int coordX = newValueForCell.getCoordX();
+        int coordY = newValueForCell.getCoordY();
 
         //rewrite table
         tableForGame[coordX][coordY] = newValueForCell.getLetter();
-        Row buffer = tableForFXML.get(coordX - 1);
+        Row buffer                   = tableForFXML.get(coordX - 1);
         buffer.set(coordY, newValueForCell.getLetter());
         tableForFXML.set(coordX - 1, buffer);
     }
@@ -125,6 +129,26 @@ public class Table {
 
                     if (!flagMoveStartFromThisCell && currentCoordY < ROW_SIZE - 1) {
                         Move newCurrentCell = new Move(currentCoordX, currentCoordY + 1);
+                        flagMoveStartFromThisCell = isMoveContainThisCell(newCurrentCell, copyMove);
+                    }
+
+                    if (!flagMoveStartFromThisCell && currentCoordX > 1 && currentCoordY > 1) {
+                        Move newCurrentCell = new Move(currentCoordX - 1, currentCoordY - 1);
+                        flagMoveStartFromThisCell = isMoveContainThisCell(newCurrentCell, copyMove);
+                    }
+
+                    if (!flagMoveStartFromThisCell && currentCoordX < COLUMN_SIZE - 1 && currentCoordY < ROW_SIZE - 1) {
+                        Move newCurrentCell = new Move(currentCoordX + 1, currentCoordY + 1);
+                        flagMoveStartFromThisCell = isMoveContainThisCell(newCurrentCell, copyMove);
+                    }
+
+                    if (!flagMoveStartFromThisCell && currentCoordX < COLUMN_SIZE - 1 && currentCoordY > 1) {
+                        Move newCurrentCell = new Move(currentCoordX + 1, currentCoordY - 1);
+                        flagMoveStartFromThisCell = isMoveContainThisCell(newCurrentCell, copyMove);
+                    }
+
+                    if (!flagMoveStartFromThisCell && currentCoordX > 1 && currentCoordY < ROW_SIZE - 1) {
+                        Move newCurrentCell = new Move(currentCoordX - 1, currentCoordY + 1);
                         flagMoveStartFromThisCell = isMoveContainThisCell(newCurrentCell, copyMove);
                     }
                 }
@@ -189,25 +213,45 @@ public class Table {
                 allFoundWords.add(copyNewWord.getWord());
             }
         }
-
+        Word bufferWord = copyNewWord.getWord();
         if (tableForGame[coordX - 1][coordY] != ' ')
         {
-            Move nextMove = new Move(coordX - 1, coordY, tableForGame[coordX - 1][coordY], copyNewWord.getWord());
+            Move nextMove = new Move(coordX - 1, coordY, tableForGame[coordX - 1][coordY], bufferWord);
             dfs(nextMove, move, allFoundWords);
         }
         if (tableForGame[coordX + 1][coordY] != ' ')
         {
-            Move nextMove = new Move(coordX + 1, coordY, tableForGame[coordX + 1][coordY], copyNewWord.getWord());
+            Move nextMove = new Move(coordX + 1, coordY, tableForGame[coordX + 1][coordY], bufferWord);
             dfs(nextMove, move, allFoundWords);
         }
         if (tableForGame[coordX][coordY - 1] != ' ')
         {
-            Move nextMove = new Move(coordX, coordY - 1, tableForGame[coordX][coordY - 1], copyNewWord.getWord());
+            Move nextMove = new Move(coordX, coordY - 1, tableForGame[coordX][coordY - 1], bufferWord);
             dfs(nextMove, move, allFoundWords);
         }
         if (tableForGame[coordX][coordY + 1] != ' ')
         {
-            Move nextMove = new Move(coordX, coordY + 1, tableForGame[coordX][coordY + 1], copyNewWord.getWord());
+            Move nextMove = new Move(coordX, coordY + 1, tableForGame[coordX][coordY + 1], bufferWord);
+            dfs(nextMove, move, allFoundWords);
+        }
+        if (tableForGame[coordX - 1][coordY - 1] != ' ')
+        {
+            Move nextMove = new Move(coordX - 1, coordY - 1, tableForGame[coordX - 1][coordY - 1], bufferWord);
+            dfs(nextMove, move, allFoundWords);
+        }
+        if (tableForGame[coordX + 1][coordY + 1] != ' ')
+        {
+            Move nextMove = new Move(coordX + 1, coordY + 1, tableForGame[coordX + 1][coordY + 1], bufferWord);
+            dfs(nextMove, move, allFoundWords);
+        }
+        if (tableForGame[coordX + 1][coordY - 1] != ' ')
+        {
+            Move nextMove = new Move(coordX + 1, coordY - 1, tableForGame[coordX + 1][coordY - 1], bufferWord);
+            dfs(nextMove, move, allFoundWords);
+        }
+        if (tableForGame[coordX - 1][coordY + 1] != ' ')
+        {
+            Move nextMove = new Move(coordX - 1, coordY + 1, tableForGame[coordX - 1][coordY + 1], bufferWord);
             dfs(nextMove, move, allFoundWords);
         }
         tableForGame[coordX][coordY] = curMove.getLetter();
